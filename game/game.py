@@ -46,8 +46,10 @@ class Game:
 
         return factories
     
-    #TODO: Include method to show the tiles in the existing factories
     def return_factories(self) -> list[list[Tile]]:
+        """
+        Method that returns a list of the Factories and the Tiles contained in each Factory.
+        """
         factories = [
             factory_tiles
             for factory_tiles in iter(self.__factory)
@@ -55,9 +57,17 @@ class Game:
 
         return factories
 
-    #TODO: Include method to show the tiles in the center of the table
+    def return_center(self) -> list[Tile]:
+        """
+        Method that returns a list of the Tiles in the center of the table.
+        """
+        center_of_table = [
+            tile 
+            for tile in self.__center_of_table
+        ]
 
-    
+        return center_of_table
+
     # Refactor the below
     def test(self) -> None:
         print(self.__factory.remove_all_instances_of_tile(tile_type="red", factory_index=0))

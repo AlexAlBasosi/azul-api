@@ -9,5 +9,6 @@ game: Game = Game()
 factories: list[list[Tile]] = game.initalise_factories(num_of_players = 3)
 
 print(game.return_factories())
+print(game.return_center())
 
 # game.test()
