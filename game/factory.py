@@ -1,5 +1,6 @@
 from .tile import Tile
 from typing import Generator
+from collections.abc import Iterator
 
 class Factory:
     """
@@ -9,6 +10,11 @@ class Factory:
 
     def __init__(self) -> None:
         self.__factories = []
+
+    def __iter__(self) -> Iterator[list[Tile]]:
+        for factory_tiles in self.__factories:
+            yield factory_tiles
+
     def _chunks(self, tile_list: list[Tile], chunk_length: int) -> Generator[list[Tile], None, None]:
         """
         Generator function that takes a list of Tiles and splits it into chunks of length 'chunk_length'
