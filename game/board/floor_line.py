@@ -1,4 +1,5 @@
 from collections import deque
+from collections.abc import Iterator
 from ..tile import Tile
 
 class FloorLine:
@@ -13,7 +14,12 @@ class FloorLine:
         self.__scores = tuple([-1, -1, -2, -2, -2, -3, -3])
         self.__floor_line = deque(maxlen=7)
 
-    #TODO: return floor line.
+    def __iter__(self) -> Iterator[Tile]:
+        """
+        Dunder method that iterates through the floor line and returns it.
+        """
+        for tile in self.__floor_line:
+            yield tile
 
     def place_tiles_onto_floor_line(self, *, tiles: list[Tile]) -> list[Tile] | None:
         """

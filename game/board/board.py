@@ -1,7 +1,6 @@
 from .pattern_line import PatternLine
 from .floor_line import FloorLine
 from ..tile import Tile
-from collections import deque
 
 class Board:
     """
@@ -17,11 +16,19 @@ class Board:
 
     def return_pattern_lines(self) -> list[list[Tile]]:
         """
-        Method that returns a list of the pattern lines and the Tiles within them. 
+        Method that returns a list of the pattern lines and the tiles within them. 
         """
         pattern_lines: list[list[Tile]] = [line_tiles for line_tiles in iter(self.__pattern_lines)]
 
         return pattern_lines
+    
+    def return_floor_line(self) -> list[str]:
+        """
+        Method that returns a list of the floor line tiles.
+        """
+        floor_line: list[str] = [tile.getattr() for tile in iter(self.__floor_line)]
+
+        return floor_line
         
     def place_tile_onto_pattern_line(self, tiles: list[Tile], tile_type: str, line_index: int) -> None:
         """

@@ -86,7 +86,16 @@ class Game:
         return lid
     
     def return_pattern_lines(self) -> list[list[Tile]]:
+        """
+        Method that returns a list of the pattern lines and the tiles within them.
+        """
         return self.__board.return_pattern_lines()
+    
+    def return_floor_line(self) -> list[str]:
+        """
+        Method that returns a list of the floor line tiles.
+        """
+        return self.__board.return_floor_line()
 
     # Refactor the below
     def select_from_factory(

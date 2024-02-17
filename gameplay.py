@@ -33,6 +33,7 @@ try:
     print(f"Lid: {game.return_lid()}")
 
     print(f"Pattern Lines: {game.return_pattern_lines()}")
+    print(f"Floor Line: {game.return_floor_line()}")
 
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
