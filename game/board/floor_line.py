@@ -20,15 +20,20 @@ class FloorLine:
 
         Otherwise, it will add the tiles up to the limit and return the rest.
         """
+
         max_length: int | None = self.__floor_line.maxlen
         line_length: int | None = len(self.__floor_line)
         tile_length: int | None = len(tiles)
+
 
         # This ensures that the lengths aren't None. Mainly to make the type-checker happy :)
         if max_length is not None and line_length is not None:
             space_remaining: int | None = max_length - line_length
 
         if tile_length is not None and space_remaining is not None:
+            if tile_length <= 0:
+                raise IndexError("You must place at least one tile onto the floor line!")
+            
             # If the space remaining is 0, it will return all the tiles to be added to the lid.
             if space_remaining == 0:
                 return tiles

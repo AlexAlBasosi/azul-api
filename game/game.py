@@ -31,7 +31,7 @@ class Game:
 
     def _add_tiles_to_center(self, tiles: list[Tile]) -> None:
         for tile in tiles:
-            self.__lid.append(tile)
+            self.__center_of_table.append(tile)
 
     def initalise_factories(self, *, num_of_players: int) -> list[list[Tile]]:
         """
@@ -166,10 +166,27 @@ class Game:
             print(index_message)
         except OverflowError as overflow_message:
             print(overflow_message)
+    
 
-    # TODO: Refactor above methods to play_turn_factory and play_turn_center, which call the above methods.
-    def play_turn_factory(self, *, tiles: list[Tile]) -> None:
-        ...
-    # TODO: Add method to add_to_floor_line
-    def place_onto_floor_line(self, *, tiles: list[Tile]) -> list[Tile] | None:
-        return self.__board.place_tiles_onto_floor_line(tiles=tiles)
+    def place_onto_floor_line(self, *, tiles: list[Tile]) -> None:
+        """
+        Method that takes in a list of tiles to be added to the floor line. If there is space remaining on the floor line, it will be added.
+
+        Otherwise, the remaining tiles will be added to the lid.
+        """
+        for tile in tiles:
+            if tile not in ("black", "ice", "blue", "yellow", "red", "start"):
+                raise ValueError("Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', 'red', or 'start'.")
+        if len(tiles) <= 0:
+                raise IndexError("List provided is empty!")
+        try:
+            returned_tiles: list[Tile] | None = self.__board.place_tiles_onto_floor_line(tiles=tiles)
+            if(returned_tiles is not None):
+                for tile in returned_tiles:
+                    self.__lid.append(tile)
+
+        except ValueError as value_message:
+            print(value_message)
+        except IndexError as index_message:
+            print(index_message)
+            
