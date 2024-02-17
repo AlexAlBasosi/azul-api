@@ -13,6 +13,7 @@ class Game:
 
     __bag: Bag
     __factory: Factory
+    __num_of_factories: int
     __center_of_table: list[Tile]
     __lid: list[Tile]
     __start_marker: Tile
@@ -24,6 +25,7 @@ class Game:
         """
         self.__bag = Bag()
         self.__factory: Factory = Factory()
+        self.__num_of_factories: int = 0
         self.__start_marker: Tile = Tile("start")
         self.__center_of_table: list[Tile] = [self.__start_marker]
         self.__lid: list[Tile] = []
@@ -41,13 +43,13 @@ class Game:
         if num_of_players not in (2, 3, 4):
             raise ValueError("Azul is only designed for 2 - 4 players.")
 
-        num_of_factories: int = (
+        self.__num_of_factories: int = (
             5 if num_of_players == 2 else 7 if num_of_players == 3 else 9
         )
 
         try:
             tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
-                num_of_factories
+                self.__num_of_factories
             )
 
             factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
@@ -99,7 +101,7 @@ class Game:
                 "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'."
             )
         # Validation to ensure that an index isn't passed in for a factory that doesn't exist.
-        if factory_index not in range(0, 7):
+        if factory_index not in range(0, self.__num_of_factories):
             raise IndexError(
                 "You can only select a factory index with an integer from 0-3, as it only contains up to four tiles."
             )
