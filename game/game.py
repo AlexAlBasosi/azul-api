@@ -65,7 +65,7 @@ class Game:
         """
         Method that returns a list of the Factories and the Tiles contained in each Factory.
         """
-        factories = [factory_tiles for factory_tiles in iter(self.__factory)]
+        factories: list[list[Tile]] = [factory_tiles for factory_tiles in iter(self.__factory)]
 
         return factories
 
@@ -84,6 +84,9 @@ class Game:
         lid = [tile.getattr() for tile in self.__lid]
 
         return lid
+    
+    def return_pattern_lines(self) -> list[list[Tile]]:
+        return self.__board.return_pattern_lines()
 
     # Refactor the below
     def select_from_factory(

@@ -14,6 +14,14 @@ class Board:
     def __init__(self) -> None:
         self.__pattern_lines = PatternLine()
         self.__floor_line = FloorLine()
+
+    def return_pattern_lines(self) -> list[list[Tile]]:
+        """
+        Method that returns a list of the pattern lines and the Tiles within them. 
+        """
+        pattern_lines: list[list[Tile]] = [line_tiles for line_tiles in iter(self.__pattern_lines)]
+
+        return pattern_lines
         
     def place_tile_onto_pattern_line(self, tiles: list[Tile], tile_type: str, line_index: int) -> None:
         """

@@ -1,4 +1,5 @@
 from collections import deque
+from collections.abc import Iterator
 from ..tile import Tile
 
 class PatternLine:
@@ -19,7 +20,12 @@ class PatternLine:
             pattern_line: deque[Tile] = deque(maxlen=line_length)
             self.__pattern_lines.append(pattern_line)
 
-    # TODO: return_pattern_lines()
+    def __iter__(self) -> Iterator[list[Tile]]:
+        """
+        Dunder method that iterates through the pattern lines and returns each one as a list.
+        """
+        for pattern_line in self.__pattern_lines:
+            yield list(pattern_line)
 
     def _is_type_in_line(self, tile_type: str, line: deque[Tile]) -> bool:
         """
