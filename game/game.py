@@ -69,19 +69,19 @@ class Game:
 
         return factories
 
-    def return_center(self) -> list[Tile]:
+    def return_center(self) -> list[str]:
         """
         Method that returns a list of the Tiles in the center of the table.
         """
-        center_of_table = [tile for tile in self.__center_of_table]
+        center_of_table = [tile.getattr() for tile in self.__center_of_table]
 
         return center_of_table
 
-    def return_lid(self) -> list[Tile]:
+    def return_lid(self) -> list[str]:
         """
         Method that returns a list of the Tiles in the lid.
         """
-        lid = [tile for tile in self.__lid]
+        lid = [tile.getattr() for tile in self.__lid]
 
         return lid
 
@@ -171,7 +171,8 @@ class Game:
             raise IndexError(index_message) from index_message
         except OverflowError as overflow_message:
             raise OverflowError(overflow_message) from overflow_message
-    
+        
+    #TODO: select from center
 
     def place_onto_floor_line(self, *, tiles: list[Tile]) -> None:
         """

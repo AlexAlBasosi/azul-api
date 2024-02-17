@@ -21,8 +21,7 @@ class Board:
 
         The actual logic is found within the PatternLine class.
         """
-        returned_line: list[Tile] = self.__pattern_lines.place_tile_onto_pattern_line(tiles, tile_type, line_index)
-        print(f"{returned_line = }")
+        self.__pattern_lines.place_tile_onto_pattern_line(tiles, tile_type, line_index)
 
     def place_tiles_onto_floor_line(self, *, tiles: list[Tile]) -> list[Tile] | None:
         """

@@ -10,28 +10,28 @@ game: Game = Game()
 try:
     factories: list[list[Tile]] = game.initalise_factories(num_of_players = 3)
 
-    print(game.return_factories())
-    print(game.return_center())
-    print(game.return_lid())
+    print(f"Factories: {game.return_factories()}")
+    print(f"Center: {game.return_center()}")
+    print(f"Lid: {game.return_lid()}")
 
     returned_tiles: list[list[Tile]] = game.select_from_factory(tile_type="red", factory_index=0)
-    print(f"{returned_tiles = }")
+    print(f"Returned Tiles: {returned_tiles}")
 
     game.place_onto_pattern_line(tile_type="red", returned_tiles=returned_tiles, line_index=0)
 
     game.place_onto_floor_line(tiles=[Tile("red")])
-    print(f"{game.return_lid() = }")
+    print(f"Lid: {game.return_lid()}")
     game.place_onto_floor_line(tiles=[Tile("red"), Tile("red"), Tile("red")])
-    print(f"{game.return_lid() = }")
+    print(f"Lid: {game.return_lid()}")
     game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")])
-    print(f"{game.return_lid() = }")
+    print(f"Lid: {game.return_lid()}")
     game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")])
-    print(f"{game.return_lid() = }")
+    print(f"Lid: {game.return_lid()}")
     game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")]) 
-    print(f"{game.return_lid() = }")
+    print(f"Lid: {game.return_lid()}")
     game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")]) 
-    print(f"{game.return_lid() = }")
-    
+    print(f"Lid: {game.return_lid()}")
+
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
 except IndexError as index_message:
