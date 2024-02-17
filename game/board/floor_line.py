@@ -13,6 +13,8 @@ class FloorLine:
         self.__scores = tuple([-1, -1, -2, -2, -2, -3, -3])
         self.__floor_line = deque(maxlen=7)
 
+    #TODO: return floor line.
+
     def place_tiles_onto_floor_line(self, *, tiles: list[Tile]) -> list[Tile] | None:
         """
         Board method that takes the tiles to be added to the floor line. If there's space remaining in the floor line, it will be added, and None

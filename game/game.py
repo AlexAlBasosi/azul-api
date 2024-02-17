@@ -44,15 +44,18 @@ class Game:
         num_of_factories: int = (
             5 if num_of_players == 2 else 7 if num_of_players == 3 else 9
         )
-        tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
-            num_of_factories
-        )
 
-        factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
-            tiles_from_bag
-        )
+        try:
+            tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
+                num_of_factories
+            )
 
-        # TODO: error handling
+            factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
+                tiles_from_bag
+            )
+
+        except ValueError as value_message:
+            raise ValueError(value_message) from value_message
 
         return factories
 
@@ -112,11 +115,11 @@ class Game:
 
         # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
         except ValueError as value_message:
-            print(value_message)
+            raise ValueError(value_message) from value_message
         except IndexError as index_message:
-            print(index_message)
+            raise IndexError(index_message) from index_message
         except TypeError as type_message:
-            print(type_message)
+            raise TypeError(type_message) from type_message
 
         return returned_tiles
 
@@ -161,11 +164,11 @@ class Game:
 
         # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
         except ValueError as value_message:
-            print(value_message)
+            raise ValueError(value_message) from value_message
         except IndexError as index_message:
-            print(index_message)
+            raise IndexError(index_message) from index_message
         except OverflowError as overflow_message:
-            print(overflow_message)
+            raise OverflowError(overflow_message) from overflow_message
     
 
     def place_onto_floor_line(self, *, tiles: list[Tile]) -> None:
@@ -186,7 +189,7 @@ class Game:
                     self.__lid.append(tile)
 
         except ValueError as value_message:
-            print(value_message)
+            raise ValueError(value_message) from value_message
         except IndexError as index_message:
-            print(index_message)
+            raise IndexError(index_message) from index_message
             
