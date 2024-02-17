@@ -15,3 +15,10 @@ print(game.return_lid())
 returned_tiles: list[list[Tile]] = game.select_from_factory(tile_type="red", factory_index=0)
 print(f"{returned_tiles = }")
 game.place_onto_pattern_line(tile_type="red", returned_tiles=returned_tiles, line_index=0)
+
+print(game.place_onto_floor_line(tiles=[Tile("red")]))
+print(game.place_onto_floor_line(tiles=[Tile("red"), Tile("red"), Tile("red")]))
+print(game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")]))
+print(game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")]))
+print(game.place_onto_floor_line(tiles=[Tile("red"), Tile("red")]))
+

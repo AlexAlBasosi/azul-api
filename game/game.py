@@ -149,6 +149,8 @@ class Game:
             selected_tiles: list[Tile] = returned_tiles[0]
             discarded_tiles: list[Tile] = returned_tiles[1]
 
+            #TODO: Add logic to check whether a corresponding tile exists on the wall.
+
             # The selected tiles are placed onto the specified pattern line.
             self.__board.place_tile_onto_pattern_line(
                 selected_tiles, tile_type, line_index
@@ -165,5 +167,9 @@ class Game:
         except OverflowError as overflow_message:
             print(overflow_message)
 
-        # TODO: Refactor above methods to play_turn_factory and play_turn_center, which call the above methods.
-        # TODO: Add method to add_to_floor_line
+    # TODO: Refactor above methods to play_turn_factory and play_turn_center, which call the above methods.
+    def play_turn_factory(self, *, tiles: list[Tile]) -> None:
+        ...
+    # TODO: Add method to add_to_floor_line
+    def place_onto_floor_line(self, *, tiles: list[Tile]) -> list[Tile] | None:
+        return self.__board.place_tiles_onto_floor_line(tiles=tiles)
