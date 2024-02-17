@@ -23,11 +23,14 @@ class Game:
         """
         self.__bag = Bag()
         self.__factory: Factory = Factory()
-        self.__center_of_table: list[Tile] = []
-        self.__lid: list[Tile] = []
         self.__start_marker: Tile = Tile("start")
+        self.__center_of_table: list[Tile] = [self.__start_marker]
+        self.__lid: list[Tile] = []
         self.__board: Board = Board()
 
+    def _add_tiles_to_center(self, tiles: list[Tile]) -> None:
+        for tile in tiles:
+            self.__lid.append(tile)
     
     def initalise_factories(self, *, num_of_players: int) -> list[list[Tile]]:
         """
@@ -62,13 +65,84 @@ class Game:
         Method that returns a list of the Tiles in the center of the table.
         """
         center_of_table = [
-            tile 
+            tile
             for tile in self.__center_of_table
         ]
 
         return center_of_table
+    
+    def return_lid(self) -> list[Tile]:
+        """
+        Method that returns a list of the Tiles in the lid.
+        """
+        lid = [
+            tile
+            for tile in self.__lid
+        ]
+
+        return lid
 
     # Refactor the below
-    def test(self) -> None:
-        print(self.__factory.remove_all_instances_of_tile(tile_type="red", factory_index=0))
+    def select_from_factory(self, *, tile_type: str, factory_index: int) -> list[list[Tile]]:
+        """
+        Method that takes in the type of tiles to be taken from the factory, as well as the index of the factory to take the tiles from.
+
+        It removes the tiles from the specified factory, and returns a list of selected and discarded tiles.
+        """
+
+        # Validation to ensure that the type being passed in is of the specified types.
+        if tile_type not in ("black", "ice", "blue", "yellow", "red"):
+            raise ValueError("Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'.")
+        # Validation to ensure that an index isn't passed in for a factory that doesn't exist.
+        if factory_index not in range(0, 7):
+            raise IndexError("You can only select a factory index with an integer from 0-3, as it only contains up to four tiles.")
+        
+        returned_tiles: list[list[Tile]] = []
+
+        try:
+            # A method is called on the factory object to remove all tiles of type from specified factory.
+            # Which returns lists of selected and discarded tiles.
+            returned_tiles = self.__factory.remove_all_instances_of_tile(tile_type=tile_type, factory_index=factory_index)
+        
+        # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
+        except ValueError as value_message:
+            print(value_message)
+        except IndexError as index_message:
+            print(index_message)
+        except TypeError as type_message:
+            print(type_message)
+
+        return returned_tiles
     
+    def place_onto_pattern_line(self, *, tile_type: str, returned_tiles: list[list[Tile]], line_index: int) -> None:
+        """
+        Method that takes the type of tiles to be placed onto the pattern line, as well as the index of the pattern line to place the tiles onto.
+
+        It then places the selected tiles onto the specified pattern line, and adds the discarded tiles to the center of the table.
+        """
+        # Validation to ensure that the type being passed in is of the specified types.
+        if tile_type not in ("black", "ice", "blue", "yellow", "red"):
+            raise ValueError("Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'.")
+        # Validation that ensures an index isn't passed in for a pattern line that doesn't exist.
+        if line_index not in range(0, 5):
+            raise IndexError("Selected Pattern Line doesn't exist. Please provide an index from 0-4.")
+        if len(returned_tiles) <= 0:
+            raise IndexError("Tile list provided is empty!")
+        
+        try:
+            selected_tiles: list[Tile] = returned_tiles[0]
+            discarded_tiles: list[Tile] = returned_tiles[1]
+
+            # The selected tiles are placed onto the specified pattern line.
+            self.__board.place_tile_onto_pattern_line(selected_tiles, tile_type, line_index)
+
+            # The discarded tiles are added to the lid.
+            self._add_tiles_to_center(discarded_tiles)
+        
+        # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
+        except ValueError as value_message:
+            print(value_message)
+        except IndexError as index_message:
+            print(index_message)
+        except OverflowError as overflow_message:
+            print(overflow_message)

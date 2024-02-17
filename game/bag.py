@@ -17,6 +17,8 @@ class Bag:
 
         This populates the tile bag with 20 tiles of each type.
         """
+
+        #TODO: Refactor tile bag to create objects of type Tile
         for tile in self.__tile_set:
             self.__tile_bag[tile] = 20
 
