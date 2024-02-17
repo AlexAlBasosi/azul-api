@@ -35,6 +35,10 @@ try:
     print(f"Pattern Lines: {game.return_pattern_lines()}")
     print(f"Floor Line: {game.return_floor_line()}")
 
+    selected_tiles: list[Tile] = game.select_from_center(tile_type="black")
+    print(f"Selected Tiles from center: {selected_tiles}")
+    print(f"Center of Table: {game.return_center()}")
+
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
 except IndexError as index_message:

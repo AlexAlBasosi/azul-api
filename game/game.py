@@ -69,11 +69,16 @@ class Game:
 
         return factories
 
-    def return_center(self) -> list[str]:
+    def return_center(self) -> list[Tile | str]:
         """
         Method that returns a list of the Tiles in the center of the table.
         """
-        center_of_table = [tile.getattr() for tile in self.__center_of_table]
+        center_of_table: list[Tile | str] = []
+        for tile in self.__center_of_table:
+            if tile == "start":
+                center_of_table.append("start")
+            else:
+                center_of_table.append(tile)
 
         return center_of_table
 
@@ -97,7 +102,6 @@ class Game:
         """
         return self.__board.return_floor_line()
 
-    # Refactor the below
     def select_from_factory(
         self, *, tile_type: str, factory_index: int
     ) -> list[list[Tile]]:
@@ -136,7 +140,26 @@ class Game:
             raise TypeError(type_message) from type_message
 
         return returned_tiles
+    
+    def select_from_center(self, *, tile_type: str) -> list[Tile]:
+        """
+        Method that takes the type of tile to be taken from the center of the table, and removes all tiles from the center.
 
+        It then returned the removed tiles as a list.
+        """
+        if tile_type not in self.__center_of_table:
+            raise IndexError("No Tile of this type found within the factory!")
+        if not isinstance(tile_type, str):
+            raise TypeError("tile_type should be a string!")
+        
+        selected_tiles: list[Tile] = []
+        for tile in self.__center_of_table:
+            if tile == tile_type:
+                selected_tiles.append(tile)
+                self.__center_of_table.remove(tile)
+
+        return selected_tiles
+    
     def place_onto_pattern_line(
         self,
         *,
@@ -183,8 +206,6 @@ class Game:
             raise IndexError(index_message) from index_message
         except OverflowError as overflow_message:
             raise OverflowError(overflow_message) from overflow_message
-        
-    #TODO: select from center
 
     def place_onto_floor_line(self, *, tiles: list[Tile]) -> None:
         """
