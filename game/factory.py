@@ -71,4 +71,7 @@ class Factory:
             else:
                 selected_tiles.append(tile)
 
+        # Replace tiles in factory at index factory_index with an empty list, thus removing the elements.
+        self.__factories[factory_index] = []
+        
         return [selected_tiles, discarded_tiles]
