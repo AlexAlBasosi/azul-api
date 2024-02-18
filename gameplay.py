@@ -39,6 +39,8 @@ try:
     print(f"Selected Tiles from center: {selected_tiles}")
     print(f"Center of Table: {game.return_center()}")
 
+    print(f"Wall: {game.return_wall()}")
+
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
 except IndexError as index_message:

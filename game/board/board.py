@@ -1,5 +1,6 @@
 from .pattern_line import PatternLine
 from .floor_line import FloorLine
+from .wall import Wall
 from ..tile import Tile
 
 class Board:
@@ -9,10 +10,12 @@ class Board:
 
     __pattern_lines: PatternLine
     __floor_line: FloorLine
+    __wall: Wall
 
     def __init__(self) -> None:
         self.__pattern_lines = PatternLine()
         self.__floor_line = FloorLine()
+        self.__wall = Wall()
 
     def return_pattern_lines(self) -> list[list[Tile]]:
         """
@@ -29,6 +32,14 @@ class Board:
         floor_line: list[str] = [tile.getattr() for tile in iter(self.__floor_line)]
 
         return floor_line
+    
+    def return_wall(self) -> list[dict[str, Tile]]:
+        """
+        Method that iterates through the array and appends each row to a list.
+
+        The list is then returned.
+        """
+        return self.__wall.return_wall()
         
     def place_tile_onto_pattern_line(self, tiles: list[Tile], tile_type: str, line_index: int) -> None:
         """

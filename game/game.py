@@ -101,6 +101,14 @@ class Game:
         Method that returns a list of the floor line tiles.
         """
         return self.__board.return_floor_line()
+    
+    def return_wall(self) -> list[dict[str, Tile]]:
+        """
+        Method that iterates through the array and appends each row to a list.
+
+        The list is then returned.
+        """
+        return self.__board.return_wall()
 
     def select_from_factory(
         self, *, tile_type: str, factory_index: int
