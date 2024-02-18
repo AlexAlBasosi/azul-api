@@ -1,8 +1,10 @@
 import numpy as np 
-from collections.abc import Iterator
 from ..tile import Tile
 
 class Wall:
+    """
+    The Wall class handles methods associated with adding and removing tiles from the floor line.
+    """
     __rows: int = 5
     __wall = np.empty((__rows), dtype=object)
 

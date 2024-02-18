@@ -197,7 +197,10 @@ class Game:
             selected_tiles: list[Tile] = returned_tiles[0]
             discarded_tiles: list[Tile] = returned_tiles[1]
 
-            #TODO: Add logic to check whether a corresponding tile exists on the wall.
+            wall: list[dict[str, Tile]] = self.return_wall()
+            # If tile already exists at the line index on the wall, an error is raised.
+            if wall[line_index][tile_type] is not None:
+                raise ValueError("Tile already exists on the wall! Cannot add to this pattern line.")
 
             # The selected tiles are placed onto the specified pattern line.
             self.__board.place_tile_onto_pattern_line(
