@@ -2,6 +2,7 @@ from collections import deque
 from collections.abc import Iterator
 from ..tile import Tile
 
+
 class PatternLine:
     """
     The PatternLine class handles methods associated with adding and removing Tiles from the pattern lines.

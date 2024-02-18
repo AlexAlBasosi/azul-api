@@ -65,7 +65,9 @@ class Game:
         """
         Method that returns a list of the Factories and the Tiles contained in each Factory.
         """
-        factories: list[list[Tile]] = [factory_tiles for factory_tiles in iter(self.__factory)]
+        factories: list[list[Tile]] = [
+            factory_tiles for factory_tiles in iter(self.__factory)
+        ]
 
         return factories
 
@@ -89,19 +91,19 @@ class Game:
         lid = [tile.getattr() for tile in self.__lid]
 
         return lid
-    
+
     def return_pattern_lines(self) -> list[list[Tile]]:
         """
         Method that returns a list of the pattern lines and the tiles within them.
         """
         return self.__board.return_pattern_lines()
-    
+
     def return_floor_line(self) -> list[str]:
         """
         Method that returns a list of the floor line tiles.
         """
         return self.__board.return_floor_line()
-    
+
     def return_wall(self) -> list[dict[str, Tile]]:
         """
         Method that iterates through the array and appends each row to a list.
@@ -148,26 +150,35 @@ class Game:
             raise TypeError(type_message) from type_message
 
         return returned_tiles
-    
+
     def select_from_center(self, *, tile_type: str) -> list[Tile]:
         """
         Method that takes the type of tile to be taken from the center of the table, and removes all tiles from the center.
 
         It then returned the removed tiles as a list.
         """
+        # If requested tile isn't in the center or the table, there are no tiles in the center, or tile is not a string, it will throw an error.
         if tile_type not in self.__center_of_table:
             raise IndexError("No Tile of this type found within the factory!")
+        if len(self.__center_of_table) <= 0:
+            raise IndexError("There are no tiles in the center of the table!")
         if not isinstance(tile_type, str):
             raise TypeError("tile_type should be a string!")
-        
+
+        # For each tile in the center of the table, it will append it to the selected tiles, and then remove it from the center of the table.
         selected_tiles: list[Tile] = []
         for tile in self.__center_of_table:
             if tile == tile_type:
                 selected_tiles.append(tile)
                 self.__center_of_table.remove(tile)
 
+        # If the user selects from the center, it will add the start marker to their floor line, and remove it from the center of the table.
+        self.__board.place_tiles_onto_floor_line(tiles=[self.__start_marker])
+        if self.__start_marker in self.__center_of_table:
+            self.__center_of_table.remove(self.__start_marker)
+
         return selected_tiles
-    
+
     def place_onto_pattern_line(
         self,
         *,
@@ -200,14 +211,16 @@ class Game:
             wall: list[dict[str, Tile]] = self.return_wall()
             # If tile already exists at the line index on the wall, an error is raised.
             if wall[line_index][tile_type] is not None:
-                raise ValueError("Tile already exists on the wall! Cannot add to this pattern line.")
+                raise ValueError(
+                    "Tile already exists on the wall! Cannot add to this pattern line."
+                )
 
             # The selected tiles are placed onto the specified pattern line.
             self.__board.place_tile_onto_pattern_line(
                 selected_tiles, tile_type, line_index
             )
 
-            # The discarded tiles are added to the lid.
+            # The discarded tiles are added to the center of the table.
             self._add_tiles_to_center(discarded_tiles)
 
         # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
@@ -226,12 +239,16 @@ class Game:
         """
         for tile in tiles:
             if tile not in ("black", "ice", "blue", "yellow", "red", "start"):
-                raise ValueError("Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', 'red', or 'start'.")
+                raise ValueError(
+                    "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', 'red', or 'start'."
+                )
         if len(tiles) <= 0:
-                raise IndexError("List provided is empty!")
+            raise IndexError("List provided is empty!")
         try:
-            returned_tiles: list[Tile] | None = self.__board.place_tiles_onto_floor_line(tiles=tiles)
-            if(returned_tiles is not None):
+            returned_tiles: list[
+                Tile
+            ] | None = self.__board.place_tiles_onto_floor_line(tiles=tiles)
+            if returned_tiles is not None:
                 for tile in returned_tiles:
                     self.__lid.append(tile)
 
@@ -239,4 +256,3 @@ class Game:
             raise ValueError(value_message) from value_message
         except IndexError as index_message:
             raise IndexError(index_message) from index_message
-            
