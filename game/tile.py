@@ -21,3 +21,6 @@ class Tile:
         if not isinstance(other, str):
             return NotImplemented
         return self.colour != other
+
+    def __repr__(self) -> str:
+        return self.colour

@@ -28,13 +28,14 @@ class Board:
 
         return pattern_lines
 
-    def return_floor_line(self) -> list[str]:
+    def return_floor_line(self) -> list[str | Tile]:
         """
         Method that returns a list of the floor line tiles.
         """
-        floor_line: list[str] = [
-            tile.getattr() for tile in iter(self.__floor_line)
-        ]
+        floor_line: list[str | Tile] = []
+        for tile in iter(self.__floor_line):
+            tile_string: str = repr(tile).replace("'", "")
+            floor_line.append(tile_string)
 
         return floor_line
 
@@ -69,5 +70,3 @@ class Board:
         """
 
         return self.__floor_line.place_tiles_onto_floor_line(tiles=tiles)
-
-    # TODO look into why black isn't formatting this file

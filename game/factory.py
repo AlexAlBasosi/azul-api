@@ -73,5 +73,16 @@ class Factory:
 
         # Replace tiles in factory at index factory_index with an empty list, thus removing the elements.
         self.__factories[factory_index] = []
-        
+
         return [selected_tiles, discarded_tiles]
+
+    def is_factories_empty(self) -> bool:
+        """
+        Method that checks whether the factories are empty.
+
+        If so, it returns True. Otherwise, if any of the factories are not empty, it will return False.
+        """
+        for factory in self.__factories:
+            if len(factory) > 0:
+                return False
+        return True

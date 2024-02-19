@@ -36,7 +36,7 @@ class PatternLine:
         """
         # TODO: figure out why != on tiles isn't working
         for line_tile in line:
-            if tile_type != line_tile.getattr():
+            if tile_type != line_tile:
                 return False
         return True
 

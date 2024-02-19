@@ -13,7 +13,7 @@ game: Game = Game()
 try:
     # Game Setup:
     ## This phase involves setting up the game and initialising the factories. 
-    factories: list[list[Tile]] = game.initalise_factories(num_of_players = 3)
+    factories: list[list[Tile]] = game.initalise_factories(num_of_players = 2)
 
     print(f"Factories: {game.return_factories()}")
     print(f"Center: {game.return_center()}")
@@ -21,33 +21,91 @@ try:
 
     # Factory Offer:
     ## Now, the user starts to play. They start by selecting all the red tiles from the first factory.
-    returned_tiles: list[list[Tile]] = game.select_from_factory(tile_type="red", factory_index=0)
+    print("First Turn:")
+    tile_type: str = str(factories[0][0])
+    returned_tiles: list[list[Tile]] = game.select_from_factory(tile_type=tile_type, factory_index=0)
     print(f"Returned Tiles: {returned_tiles}\n")
+    print("\n\n")
 
     # The returned tiles, which include the selected and discarded tiles, are passed into this method.
     # Here, the user places the tiles onto the second pattern line.
-    game.place_onto_pattern_line(tile_type="red", returned_tiles=returned_tiles, line_index=1)
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=0)
 
     # If there are any extra tiles that need to be added to the floor line, they can be added here.
     # In this example, the user adds a red tile to the floor line.
-    floor_tiles: list[Tile] = [Tile("red")]
-    game.place_onto_floor_line(tiles=floor_tiles)
+    # floor_tiles: list[Tile] = [Tile("red")]
+    # game.place_onto_floor_line(tiles=floor_tiles)
 
     # Now, the user checks the state of the game to see their next steps.
-    print(f"Factories: {game.return_factories()}")
-    print(f"Pattern Lines: {game.return_pattern_lines()}")
-    print(f"Center of Table: {game.return_center()}")
-    print(f"Floor Line: {game.return_floor_line()}\n")
+    # print(f"Factories: {game.return_factories()}")
+    # print(f"Pattern Lines: {game.return_pattern_lines()}")
+    # print(f"Center of Table: {game.return_center()}")
+    # print(f"Floor Line: {game.return_floor_line()}\n")
 
     # They decide to take the black tiles from the center of the table this time.
-    selected_tiles: list[Tile] = game.select_from_center(tile_type="black")
-    print(f"Selected Tiles from center: {selected_tiles}")
+    # selected_tiles: list[Tile] = game.select_from_center(tile_type="red")
+    # print(f"Selected Tiles from center: {selected_tiles}")
+    # print(f"Center of Table: {game.return_center()}")
+    # print(f"Floor Line: {game.return_floor_line()}\n")
+
+    print("Second Turn:")
+    tile_type = str(factories[1][0])
+    returned_tiles = game.select_from_factory(tile_type=tile_type, factory_index=1)
+    print(f"Returned Tiles: {returned_tiles}\n")
+
+    print(f"Factories: {game.return_factories()}\n")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=1)
+    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    print("\n\n")
+
+
+    print("Third Turn:")
+    tile_type = str(factories[2][0])
+    returned_tiles = game.select_from_factory(tile_type=tile_type, factory_index=2)
+    print(f"Returned Tiles: {returned_tiles}\n")
+    print(f"Factories: {game.return_factories()}\n")
+
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=2)
+    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    print("\n\n")
+
+    print("Fourth Turn:")
+    tile_type = str(factories[3][0])
+    returned_tiles = game.select_from_factory(tile_type=tile_type, factory_index=3)
+    print(f"Returned Tiles: {returned_tiles}\n")
+
+    print(f"Factories: {game.return_factories()}\n")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=3)
+    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    print("\n\n")
+
+    print("Fifth Turn:")
+    tile_type = str(factories[4][0])
+    returned_tiles = game.select_from_factory(tile_type=tile_type, factory_index=4)
+    print(f"Returned Tiles: {returned_tiles}\n")
+
+    print(f"Factories: {game.return_factories()}\n")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=4)
+    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    print("\n\n")
+
+    print(f"Center of Table: {game.return_center()}")
+
+    # TODO: refactor this so that the user clears the center organically.
+    game.clear_center()
     print(f"Center of Table: {game.return_center()}")
     print(f"Floor Line: {game.return_floor_line()}\n")
+    
+    print("\n\n")
 
+    # Wall Tiling
+    ## Now, the user starts to place tiles onto the wall from the pattern lines.
     print(f"Wall: {game.return_wall()}")
+    game.place_onto_wall()
 
     #TODO: if factories are empty, refill from bag
+    
+
     #TODO: if bag is empty, refill from lid
 
 except ValueError as value_message:

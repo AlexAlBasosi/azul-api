@@ -157,9 +157,10 @@ class Game:
 
         It then returned the removed tiles as a list.
         """
+
         # If requested tile isn't in the center or the table, there are no tiles in the center, or tile is not a string, it will throw an error.
         if tile_type not in self.__center_of_table:
-            raise IndexError("No Tile of this type found within the factory!")
+            raise IndexError("No Tile of this type found within the center!")
         if len(self.__center_of_table) <= 0:
             raise IndexError("There are no tiles in the center of the table!")
         if not isinstance(tile_type, str):
@@ -178,6 +179,9 @@ class Game:
             self.__center_of_table.remove(self.__start_marker)
 
         return selected_tiles
+    
+    def clear_center(self) -> None:
+        self.__center_of_table = []
 
     def place_onto_pattern_line(
         self,
@@ -256,3 +260,9 @@ class Game:
             raise ValueError(value_message) from value_message
         except IndexError as index_message:
             raise IndexError(index_message) from index_message
+        
+    def place_onto_wall(self) -> None:
+        if len(self.__center_of_table) > 0:
+            raise ValueError("Cannot place onto the wall while the center still has tiles!")
+        if not self.__factory.is_factories_empty():
+            raise ValueError("Cannot place onto the wall while the factories still have tiles!")
