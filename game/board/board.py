@@ -39,13 +39,21 @@ class Board:
 
         return floor_line
 
-    def return_wall(self) -> list[dict[str, Tile]]:
+    def return_wall(self) -> list[list[list[str | Tile | None]]]:
         """
         Method that iterates through the array and appends each row to a list.
 
         The list is then returned.
         """
         return self.__wall.return_wall()
+    
+    def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
+        """
+        Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
+
+        If it does, it returns True. Otherwise, it returns False.
+        """
+        return self.__wall.is_tile_on_wall(line_index, tile_type)
 
     def place_tile_onto_pattern_line(
         self, tiles: list[Tile], tile_type: str, line_index: int

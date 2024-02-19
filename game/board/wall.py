@@ -8,7 +8,9 @@ class Wall:
     """
 
     __rows: int = 5
-    __wall = np.empty((__rows), dtype=object)
+    __columns: int = 5
+    __depth: int = 2
+    __wall = np.empty((__rows, __columns, __depth), dtype=object)
 
     def _shift_right(self, tiles_list: list[str | None]) -> list[str | None]:
         """
@@ -25,27 +27,38 @@ class Wall:
         """
         Constructor method that initalises the items on the wall.
         """
-        self.__wall = np.empty((self.__rows), dtype=object)
+        self.__wall = np.empty((self.__rows, self.__columns, self.__depth), dtype=object)
 
         tiles_list: list[str | None] = ['blue', 'yellow', 'red', 'black', 'ice']
-        for index, _ in enumerate(tiles_list):
-            self.__wall[index] = {
-                tiles_list[0]: None,
-                tiles_list[1]: None,
-                tiles_list[2]: None,
-                tiles_list[3]: None,
-                tiles_list[4]: None
-            }
-
+        for i in range(self.__rows):
+            for j in range(self.__columns):
+                wall_item: list[str | Tile | None] = [tiles_list[j], None]
+                self.__wall[i][j] = wall_item
             tiles_list = self._shift_right(tiles_list)
 
-    def return_wall(self) -> list[dict[str, Tile]]:
+    def return_wall(self) -> list[list[list[str | Tile | None]]]:
         """
         Method that iterates through the array and appends each row to a list.
 
         The list is then returned.
         """
-        wall: list[dict[str, Tile]] = []
-        for index in range(self.__rows):
-            wall.append(self.__wall[index])
+        wall: list[list[list[str | Tile | None]]] = []
+        for i in range(self.__rows):
+            wall_row: list[list[str | Tile | None]] = []
+            for j in range(self.__columns):
+                wall_item: list[str | Tile | None] = list(self.__wall[i][j])
+                wall_row.append(wall_item)
+            wall.append(wall_row)
         return wall
+    
+    def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
+        """
+        Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
+
+        If it does, it returns True. Otherwise, it returns False.
+        """
+        for wall_row in self.__wall[line_index]:
+            if wall_row[0] == tile_type:
+                if wall_row[1] is not None:
+                    return True
+        return False

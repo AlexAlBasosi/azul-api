@@ -104,7 +104,7 @@ class Game:
         """
         return self.__board.return_floor_line()
 
-    def return_wall(self) -> list[dict[str, Tile]]:
+    def return_wall(self) -> list[list[list[str | Tile | None]]]:
         """
         Method that iterates through the array and appends each row to a list.
 
@@ -212,9 +212,8 @@ class Game:
             selected_tiles: list[Tile] = returned_tiles[0]
             discarded_tiles: list[Tile] = returned_tiles[1]
 
-            wall: list[dict[str, Tile]] = self.return_wall()
             # If tile already exists at the line index on the wall, an error is raised.
-            if wall[line_index][tile_type] is not None:
+            if self.__board.is_tile_on_wall(line_index, tile_type):
                 raise ValueError(
                     "Tile already exists on the wall! Cannot add to this pattern line."
                 )
