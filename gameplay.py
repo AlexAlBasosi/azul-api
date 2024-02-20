@@ -121,3 +121,4 @@ except OverflowError as overflow_message:
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
+# TODO: Refactor error message to include class and method where error was raised.

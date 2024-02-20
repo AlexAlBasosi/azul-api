@@ -46,7 +46,7 @@ class Board:
         The list is then returned.
         """
         return self.__wall.return_wall()
-    
+
     def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
         """
         Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
@@ -78,17 +78,18 @@ class Board:
         """
 
         return self.__floor_line.place_tiles_onto_floor_line(tiles=tiles)
-    
+
     def place_tile_onto_wall(self, line_index: int) -> None:
         if not self.__pattern_lines.is_line_full(line_index):
-            raise ValueError("Cannot place tile onto wall if pattern line is not empty!")
-        
+            raise ValueError(
+                "Cannot place tile onto wall if pattern line is not empty!"
+            )
+
         tile_type: str = self.__pattern_lines.get_tile_type(line_index)
         print(f"Tile type: {tile_type}")
-        
+
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
         print(f"Index: {column_index}")
         self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
-        
-        #TODO: add logic to increase score as returned from wall and return to game
 
+        # TODO: add logic to increase score as returned from wall and return to game

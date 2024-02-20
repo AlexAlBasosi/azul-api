@@ -27,9 +27,11 @@ class Wall:
         """
         Constructor method that initalises the items on the wall.
         """
-        self.__wall = np.empty((self.__rows, self.__columns, self.__depth), dtype=object)
+        self.__wall = np.empty(
+            (self.__rows, self.__columns, self.__depth), dtype=object
+        )
 
-        tiles_list: list[str | None] = ['blue', 'yellow', 'red', 'black', 'ice']
+        tiles_list: list[str | None] = ["blue", "yellow", "red", "black", "ice"]
         for i in range(self.__rows):
             for j in range(self.__columns):
                 wall_item: list[str | Tile | None] = [tiles_list[j], None]
@@ -50,7 +52,6 @@ class Wall:
                 wall_row.append(wall_item)
             wall.append(wall_row)
         return wall
-    
 
     # TODO: refactor this method to call get_column_index
     def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
@@ -64,7 +65,7 @@ class Wall:
                 if wall_row[1] is not None:
                     return True
         return False
-    
+
     def get_column_index(self, line_index: int, tile_type: str) -> int:
         """
         Method that takes the pattern line index and the type of tile, and retrieves the index of the column.
@@ -77,8 +78,10 @@ class Wall:
                 index = i
 
         return index
-    
-    def place_tile_onto_wall(self, row: int, column: int, tile_type: str) -> None:
+
+    def place_tile_onto_wall(
+        self, row: int, column: int, tile_type: str
+    ) -> None:
         self.__wall[row][column][1] = Tile(tile_type)
 
-        #TODO: add logic to calculate the score and return to board
+        # TODO: add logic to calculate the score and return to board
