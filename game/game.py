@@ -37,6 +37,12 @@ class Game:
         for tile in tiles:
             self.__center_of_table.append(tile)
 
+    def _is_in_board_floor_lines(self, tile: Tile) -> bool:
+        for board in self.__boards:
+            if tile in board.return_floor_line():
+                return True
+        return False
+
     def initialise_players(self, *, num_of_players: int) -> list[int]:
         """
         Method that takes in the number of players, and initialises the boards.
@@ -204,7 +210,8 @@ class Game:
                 self.__center_of_table.remove(tile)
 
         # If the user selects from the center, it will add the start marker to their floor line, and remove it from the center of the table.
-        self.__boards[player_index].place_tiles_onto_floor_line(tiles=[self.__start_marker])
+        if not self._is_in_board_floor_lines(self.__start_marker):
+            self.__boards[player_index].place_tiles_onto_floor_line(tiles=[self.__start_marker])
         if self.__start_marker in self.__center_of_table:
             self.__center_of_table.remove(self.__start_marker)
 
