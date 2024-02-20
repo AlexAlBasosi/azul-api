@@ -98,6 +98,7 @@ class Game:
         """
         return self.__board.return_pattern_lines()
 
+    # TODO: Fix error message
     def return_floor_line(self) -> list[str]:
         """
         Method that returns a list of the floor line tiles.
@@ -260,8 +261,12 @@ class Game:
         except IndexError as index_message:
             raise IndexError(index_message) from index_message
         
-    def place_onto_wall(self) -> None:
+    def place_onto_wall(self, *, line_index: int) -> None:
         if len(self.__center_of_table) > 0:
             raise ValueError("Cannot place onto the wall while the center still has tiles!")
         if not self.__factory.is_factories_empty():
             raise ValueError("Cannot place onto the wall while the factories still have tiles!")
+        
+        self.__board.place_tile_onto_wall(line_index)
+
+        #TODO: add logic to return score

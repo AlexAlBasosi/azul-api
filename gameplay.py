@@ -101,7 +101,8 @@ try:
     # Wall Tiling
     ## Now, the user starts to place tiles onto the wall from the pattern lines.
     print(f"Wall: {game.return_wall()}")
-    game.place_onto_wall()
+    game.place_onto_wall(line_index=0)
+    print(f"Wall: {game.return_wall()}")
 
     #TODO: if factories are empty, refill from bag
     
@@ -117,3 +118,6 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
+# TODO: Add positional arguments to all public methods
+# TODO: Add validation to all public methods.
+# TODO: Add comments in various functions

@@ -34,11 +34,28 @@ class PatternLine:
 
         If it is, it returns true. Otherwise it returns false.
         """
-        # TODO: figure out why != on tiles isn't working
         for line_tile in line:
             if tile_type != line_tile:
                 return False
         return True
+    
+    def is_line_full(self, line_index: int) -> bool:
+        """
+        Method that takes the pattern line index and checks if the corresponding pattern line is full.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        if len(self.__pattern_lines[line_index]) != self.__pattern_lines[line_index].maxlen:
+            return False
+        return True
+    
+    def get_tile_type(self, line_index: int) -> str:
+        """
+        Method that takes the pattern line index and checks the type of the last element within the pattern line.
+
+        It then returns the type.
+        """
+        return repr(self.__pattern_lines[line_index][-1])
 
     def place_tile_onto_pattern_line(
         self, tiles: list[Tile], tile_type: str, line_index: int

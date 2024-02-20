@@ -51,6 +51,8 @@ class Wall:
             wall.append(wall_row)
         return wall
     
+
+    # TODO: refactor this method to call get_column_index
     def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
         """
         Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
@@ -62,3 +64,21 @@ class Wall:
                 if wall_row[1] is not None:
                     return True
         return False
+    
+    def get_column_index(self, line_index: int, tile_type: str) -> int:
+        """
+        Method that takes the pattern line index and the type of tile, and retrieves the index of the column.
+
+        It then returns that column index.
+        """
+        index: int = 0
+        for i, wall_row in enumerate(self.__wall[line_index]):
+            if repr(wall_row[0]) == tile_type:
+                index = i
+
+        return index
+    
+    def place_tile_onto_wall(self, row: int, column: int, tile_type: str) -> None:
+        self.__wall[row][column][1] = Tile(tile_type)
+
+        #TODO: add logic to calculate the score and return to board
