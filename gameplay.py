@@ -9,11 +9,15 @@ from game import Tile
 
 game: Game = Game()
 
-
 try:
     # Game Setup:
     ## This phase involves setting up the game and initialising the factories. 
-    factories: list[list[Tile]] = game.initalise_factories(num_of_players = 2)
+
+    players: list[int] = game.initialise_players(num_of_players = 2)
+    factories: list[list[Tile]] = game.initalise_factories()
+
+    player_1: int = players[0]
+    player_2: int = players[1]
 
     print(f"Factories: {game.return_factories()}")
     print(f"Center: {game.return_center()}")
@@ -29,7 +33,7 @@ try:
 
     # The returned tiles, which include the selected and discarded tiles, are passed into this method.
     # Here, the user places the tiles onto the second pattern line.
-    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=0)
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, player_index=0, line_index=0)
 
     # If there are any extra tiles that need to be added to the floor line, they can be added here.
     # In this example, the user adds a red tile to the floor line.
@@ -54,8 +58,8 @@ try:
     print(f"Returned Tiles: {returned_tiles}\n")
 
     print(f"Factories: {game.return_factories()}\n")
-    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=1)
-    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, player_index=0, line_index=1)
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=0)}")
     print("\n\n")
 
 
@@ -65,8 +69,8 @@ try:
     print(f"Returned Tiles: {returned_tiles}\n")
     print(f"Factories: {game.return_factories()}\n")
 
-    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=2)
-    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, player_index=0, line_index=2)
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=0)}")
     print("\n\n")
 
     print("Fourth Turn:")
@@ -75,8 +79,8 @@ try:
     print(f"Returned Tiles: {returned_tiles}\n")
 
     print(f"Factories: {game.return_factories()}\n")
-    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=3)
-    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, player_index=0, line_index=3)
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=0)}")
     print("\n\n")
 
     print("Fifth Turn:")
@@ -85,8 +89,8 @@ try:
     print(f"Returned Tiles: {returned_tiles}\n")
 
     print(f"Factories: {game.return_factories()}\n")
-    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, line_index=4)
-    print(f"Pattern Lines: {game.return_pattern_lines()}")
+    game.place_onto_pattern_line(tile_type=tile_type, returned_tiles=returned_tiles, player_index=0, line_index=4)
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=0)}")
     print("\n\n")
 
     print(f"Center of Table: {game.return_center()}")
@@ -94,15 +98,15 @@ try:
     # TODO: refactor this so that the user clears the center organically.
     game.clear_center()
     print(f"Center of Table: {game.return_center()}")
-    print(f"Floor Line: {game.return_floor_line()}\n")
+    print(f"Floor Line: {game.return_floor_line(player_index=0)}\n")
     
     print("\n\n")
 
     # Wall Tiling
     ## Now, the user starts to place tiles onto the wall from the pattern lines.
-    print(f"Wall: {game.return_wall()}")
-    game.place_onto_wall(line_index=0)
-    print(f"Wall: {game.return_wall()}")
+    print(f"Wall: {game.return_wall(player_index=0)}")
+    game.place_onto_wall(line_index=0, player_index=0)
+    print(f"Wall: {game.return_wall(player_index=0)}")
 
     #TODO: if factories are empty, refill from bag
     
@@ -118,6 +122,10 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
+# TODO: add logic to create multiple boards to represent players
+# TODO: add test factories to simplify game script
+# TODO: refactor main script into functions to simplify
+    
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
