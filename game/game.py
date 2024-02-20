@@ -54,6 +54,17 @@ class Game:
             self.__boards.append(Board())
 
         return player_indexes
+    
+    # def test_initialise_factories(self) -> list[list[Tile]]:
+    #     test_factories: list[list[Tile]] = [
+    #         [Tile('red'), Tile('yellow'), Tile('yellow'), Tile('black'), Tile('ice')],
+    #         [Tile('yellow'), Tile('black'), Tile('black'), Tile('ice'), Tile('blue')],
+    #         [Tile('blue'), Tile('ice'), Tile('red'), Tile('red'), Tile('red')],
+    #         [Tile('yellow'), Tile('black'), Tile('yellow'), Tile('yellow'), Tile('yellow')],
+    #         [Tile('blue'), Tile('blue'), Tile('blue'), Tile('blue'), Tile('blue')]
+    #     ]
+
+    #     return test_factories
 
     def initalise_factories(self) -> list[list[Tile]]:
         """
