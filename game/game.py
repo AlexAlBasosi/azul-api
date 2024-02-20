@@ -51,16 +51,16 @@ class Game:
         """
         if num_of_players not in (2, 3, 4):
             raise ValueError("Azul is only designed for 2 - 4 players.")
-        
+
         self.__num_of_players = num_of_players
-        
+
         player_indexes: list[int] = []
         for player_index in range(num_of_players):
             player_indexes.append(player_index)
             self.__boards.append(Board())
 
         return player_indexes
-    
+
     # def test_initialise_factories(self) -> list[list[Tile]]:
     #     test_factories: list[list[Tile]] = [
     #         [Tile('red'), Tile('yellow'), Tile('yellow'), Tile('black'), Tile('ice')],
@@ -79,7 +79,11 @@ class Game:
         """
 
         self.__num_of_factories: int = (
-            5 if self.__num_of_players == 2 else 7 if self.__num_of_players == 3 else 9
+            5
+            if self.__num_of_players == 2
+            else 7
+            if self.__num_of_players == 3
+            else 9
         )
 
         try:
@@ -140,7 +144,9 @@ class Game:
         """
         return self.__boards[player_index].return_floor_line()
 
-    def return_wall(self, *, player_index: int) -> list[list[list[str | Tile | None]]]:
+    def return_wall(
+        self, *, player_index: int
+    ) -> list[list[list[str | Tile | None]]]:
         """
         Method that iterates through the array and appends each row to a list.
 
@@ -187,7 +193,9 @@ class Game:
 
         return returned_tiles
 
-    def select_from_center(self, *, tile_type: str, player_index: int) -> list[Tile]:
+    def select_from_center(
+        self, *, tile_type: str, player_index: int
+    ) -> list[Tile]:
         """
         Method that takes the type of tile to be taken from the center of the table, and removes all tiles from the center.
 
@@ -211,7 +219,9 @@ class Game:
 
         # If the user selects from the center, it will add the start marker to their floor line, and remove it from the center of the table.
         if not self._is_in_board_floor_lines(self.__start_marker):
-            self.__boards[player_index].place_tiles_onto_floor_line(tiles=[self.__start_marker])
+            self.__boards[player_index].place_tiles_onto_floor_line(
+                tiles=[self.__start_marker]
+            )
         if self.__start_marker in self.__center_of_table:
             self.__center_of_table.remove(self.__start_marker)
 
@@ -251,7 +261,9 @@ class Game:
             discarded_tiles: list[Tile] = returned_tiles[1]
 
             # If tile already exists at the line index on the wall, an error is raised.
-            if self.__boards[player_index].is_tile_on_wall(line_index, tile_type):
+            if self.__boards[player_index].is_tile_on_wall(
+                line_index, tile_type
+            ):
                 raise ValueError(
                     "Tile already exists on the wall! Cannot add to this pattern line."
                 )
@@ -272,7 +284,9 @@ class Game:
         except OverflowError as overflow_message:
             raise OverflowError(overflow_message) from overflow_message
 
-    def place_onto_floor_line(self, *, tiles: list[Tile], player_index: int) -> None:
+    def place_onto_floor_line(
+        self, *, tiles: list[Tile], player_index: int
+    ) -> None:
         """
         Method that takes in a list of tiles to be added to the floor line. If there is space remaining on the floor line, it will be added.
 
@@ -286,9 +300,9 @@ class Game:
         if len(tiles) <= 0:
             raise IndexError("List provided is empty!")
         try:
-            returned_tiles: list[
-                Tile
-            ] | None = self.__boards[player_index].place_tiles_onto_floor_line(tiles=tiles)
+            returned_tiles: list[Tile] | None = self.__boards[
+                player_index
+            ].place_tiles_onto_floor_line(tiles=tiles)
             if returned_tiles is not None:
                 for tile in returned_tiles:
                     self.__lid.append(tile)
