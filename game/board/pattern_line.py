@@ -86,11 +86,13 @@ class PatternLine:
 
         if tile_length is not None and space_remaining is not None:
             # If there isn't enough space for the tiles in the pattern line, it will throw an error.
-            if tile_length > space_remaining:
+            if space_remaining == 0:
                 raise OverflowError(
                     f"Selected Pattern Line only has {space_remaining} space(s) remaining! Please try again but with less Tiles."
                 )
-
-            self.__pattern_lines[line_index].extendleft(tiles)
+            if tile_length > space_remaining:
+                self.__pattern_lines[line_index].extendleft(tiles[:space_remaining])
+            else:
+                self.__pattern_lines[line_index].extendleft(tiles)
 
         return list(self.__pattern_lines[line_index].copy())

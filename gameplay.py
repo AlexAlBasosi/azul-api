@@ -9,7 +9,6 @@ from game import Tile
 
 game: Game = Game()
 
-# TODO: Check how to add to pattern line if subset of list can fit into specified index
 def get_available_pattern_line_index(returned_tiles: list[list[Tile]],
 tile_type: str, player_index: int) -> int | None:
     """
@@ -64,7 +63,6 @@ def play_turn_center(player_index: int) -> None:
     Method that takes in the player_index and line_index and selects tiles from the center and places them onto the pattern line.
     """
     
-    # print(f"Center 1: {game.return_center()[1]}")
     tile = str(game.return_center()[0]) if game.return_center()[0] != "start" else str(game.return_center()[1])
     tiles: list[list[Tile]] = [game.select_from_center(tile_type=tile, player_index=player_index), []]
 
@@ -77,7 +75,7 @@ def play_turn_center(player_index: int) -> None:
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
-    print(f"Pattern Lines: {game.return_pattern_lines(player_index=0)}")
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=player_index)}")
     print(f"Center: {game.return_center()}")
     print(f"Floor Line: {game.return_floor_line(player_index=player_index)}")
     print("\n\n")
