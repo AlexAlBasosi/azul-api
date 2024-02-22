@@ -9,7 +9,6 @@ from game import Tile
 
 game: Game = Game()
 
-# TODO: Check why pattern lines not going into indexes 0 or 1
 # TODO: Check how to add to pattern line if subset of list can fit into specified index
 def get_available_pattern_line_index(returned_tiles: list[list[Tile]],
 tile_type: str, player_index: int) -> int | None:
@@ -27,7 +26,7 @@ tile_type: str, player_index: int) -> int | None:
         pattern_line_availability = pattern_line_capacity - len(pattern_lines[index])
         if len(pattern_lines[index]) == 0:
             if(tiles_length <= pattern_line_availability):
-                pattern_line_index = index
+                return index
         elif pattern_lines[index][-1] == tile_type:
             if tiles_length <= pattern_line_availability:
                 pattern_line_index = index
@@ -46,6 +45,7 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     # Here, the user places the tiles onto the second pattern line.
 
     available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
+    print(f"{available_index = }")
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
     else:
