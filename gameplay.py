@@ -9,7 +9,9 @@ from game import Tile
 
 game: Game = Game()
 
-def get_available_pattern_line_index(returned_tiles: list[list[Tile]], 
+# TODO: Check why pattern lines not going into indexes 0 or 1
+# TODO: Check how to add to pattern line if subset of list can fit into specified index
+def get_available_pattern_line_index(returned_tiles: list[list[Tile]],
 tile_type: str, player_index: int) -> int | None:
     """
     Method that takes in the tiles returned from the select_from_factory method and checks if there are available spaces in the pattern line.
@@ -44,9 +46,10 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     # Here, the user places the tiles onto the second pattern line.
 
     available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
-    print(f"available index: {available_index}")
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
+    else:
+        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -56,7 +59,7 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
 
     print("\n\n")
 
-def play_turn_center(player_index: int, line_index: int) -> None:
+def play_turn_center(player_index: int) -> None:
     """
     Method that takes in the player_index and line_index and selects tiles from the center and places them onto the pattern line.
     """
@@ -65,7 +68,12 @@ def play_turn_center(player_index: int, line_index: int) -> None:
     tile = str(game.return_center()[0]) if game.return_center()[0] != "start" else str(game.return_center()[1])
     tiles: list[list[Tile]] = [game.select_from_center(tile_type=tile, player_index=player_index), []]
 
-    game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=line_index)
+    available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
+
+    if available_index is not None:
+        game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
+    else:
+        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -73,6 +81,27 @@ def play_turn_center(player_index: int, line_index: int) -> None:
     print(f"Center: {game.return_center()}")
     print(f"Floor Line: {game.return_floor_line(player_index=player_index)}")
     print("\n\n")
+
+def play_factory_turns() -> None:
+    """
+    Method that loops through each factory and alternates between the number of players, each taking tiles from a factory.
+    """
+    player_index: int = 0
+
+    for factory_index in range(game.return_num_of_factories()):
+        play_turn_factory(player_index=player_index, factory_index=factory_index)
+        player_index = (player_index + 1) % game.return_num_of_players()
+
+def play_center_turns() -> None:
+    """
+    Method that, while center is not empty, alternates between players, each taking from the center until the center is empty.
+    """
+    player_index: int = 0
+
+    while not game.is_center_empty():
+        play_turn_center(player_index=player_index)
+        player_index = (player_index + 1) % game.return_num_of_players()
+
 
 try:
     # Game Setup:
@@ -90,25 +119,13 @@ try:
     print(f"Lid: {game.return_lid()}\n")
 
     # Factory Offer:
-    play_turn_factory(player_index=0, factory_index=0)
 
-    play_turn_factory(player_index=1, factory_index=1)
+    print("Taking from factories:\n\n")
+    play_factory_turns()
 
-    play_turn_factory(player_index=0, factory_index=2)
 
-    play_turn_factory(player_index=1, factory_index=3)
-
-    play_turn_factory(player_index=0, factory_index=4)
-
-    # play_turn_center(player_index=1, line_index=2)
-    # play_turn_center(player_index=0, line_index=3)
-    # play_turn_center(player_index=1, line_index=4)
-    # play_turn_center(player_index=0, line_index=1)
-
-    # TODO: refactor this so that the user clears the center organically.
-    game.clear_center()
-    print(f"Center of Table: {game.return_center()}")
-    print(f"Floor Line: {game.return_floor_line(player_index=0)}\n")
+    print("Now taking from center:\n\n")
+    play_center_turns()
     
     print("\n\n")
 
@@ -129,15 +146,10 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
-# TODO: refactor main script into functions to simplify
-    # TODO: Refactor select from center to use available index method
-    # TODO: Refactor play_turn_factory to be a loop that ends when factories are empty
-    # TODO: Refactor play_turn center to be a loop that ends when center is empty
 # TODO: Wall scoring
 # TODO: if factories are empty, refill from bag
 # TODO: if bag is empty, refill from lid
     
-# TODO: Look into fixing overflow issues -> build script that checks pattern lines.
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions

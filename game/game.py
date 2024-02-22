@@ -42,6 +42,38 @@ class Game:
             if tile in board.return_floor_line():
                 return True
         return False
+    
+    def return_num_of_factories(self) -> int:
+        """
+        Method that returns the number of factories.
+        """
+
+        return self.__num_of_factories
+    
+    def return_num_of_players(self) -> int:
+        """
+        Method that returns the number of players.
+        """
+
+        return self.__num_of_players
+    
+    def is_factories_empty(self) -> bool:
+        """
+        Method that returns whether the factories are empty.
+
+        Returns True if they're empty. Returns False otherwise.
+        """
+
+        return self.__factory.is_factories_empty()
+
+    def is_center_empty(self) -> bool:
+        """
+        Method that checks if the center is empty.
+
+        Returns True if empty. Returns False otherwise.
+        """
+
+        return not len(self.__center_of_table) > 0
 
     def initialise_players(self, *, num_of_players: int) -> list[int]:
         """
@@ -60,17 +92,6 @@ class Game:
             self.__boards.append(Board())
 
         return player_indexes
-
-    # def test_initialise_factories(self) -> list[list[Tile]]:
-    #     test_factories: list[list[Tile]] = [
-    #         [Tile('red'), Tile('yellow'), Tile('yellow'), Tile('black'), Tile('ice')],
-    #         [Tile('yellow'), Tile('black'), Tile('black'), Tile('ice'), Tile('blue')],
-    #         [Tile('blue'), Tile('ice'), Tile('red'), Tile('red'), Tile('red')],
-    #         [Tile('yellow'), Tile('black'), Tile('yellow'), Tile('yellow'), Tile('yellow')],
-    #         [Tile('blue'), Tile('blue'), Tile('blue'), Tile('blue'), Tile('blue')]
-    #     ]
-
-    #     return test_factories
 
     def initalise_factories(self) -> list[list[Tile]]:
         """
