@@ -121,6 +121,11 @@ class Game:
 
         self.__factory.clear_factories()
 
+        bag_tiles: list[Tile] = self.__bag.return_tile_bag()
+        if len(bag_tiles) < (self.__num_of_factories * 4):
+            self.__bag.add_tiles_to_bag(self.__lid)
+            self.__lid.clear()
+        
         tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
             self.__num_of_factories
         )

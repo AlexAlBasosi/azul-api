@@ -168,6 +168,163 @@ try:
     ## Wall Tiling
     place_tiles_onto_wall()
 
+    # Round 3
+    ## Factory Offer:
+
+    print("Round 3: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+    
+    print("\n\n")
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+
+    # Round 4
+    ## Factory Offer:
+
+    print("Round 4: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+    
+    print("\n\n")
+
+    # Round 5
+    ## Factory Offer:
+
+    print("Round 5: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+    
+    print("\n\n")
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+
+    # Round 6
+    ## Factory Offer:
+
+    print("Round 6: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+    
+    print("\n\n")
+
+    # Round 7
+    ## Factory Offer:
+
+    print("Round 7: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+    
+    print("\n\n")
+
+    # Round 8
+    ## Factory Offer:
+
+    print("Round 8: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+    
+    print("\n\n")
+
+    # Round 9
+    ## Factory Offer:
+
+    print("Round 9: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+    
+    print("\n\n")
+
+    # Round 10
+    ## Factory Offer:
+
+    print("Round 10: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+    
+    print("\n\n")
+
 # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
 except ValueError as value_message:
     print(f"Value Error: {value_message}")

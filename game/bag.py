@@ -32,6 +32,17 @@ class Bag:
             for _ in range(count):
                 yield item
 
+    def _list_to_mapping(self, tiles: list[Tile]) -> Mapping[Tile, int]:
+        tile_mapping: dict[Tile, int] = {}
+        for tile in tiles:
+            tile_count: int = 0
+            for _, current_tile in enumerate(tiles):
+                if current_tile == tile:
+                    tile_count += 1
+            tile_mapping[tile] = tile_count
+        
+        return tile_mapping
+
     def _update(self, new_tile_counts: Mapping[Tile, int]) -> None:
         """
         Update method that provides a Mapping of tiles and their count to be updated.
@@ -64,6 +75,10 @@ class Bag:
 
     def __len__(self) -> int:
         return sum(self.__tile_bag.values())
+    
+    def return_tile_bag(self) -> list[Tile]:
+        tiles_list: list[Tile] = [tile for tile in self.__tile_bag]
+        return tiles_list
 
     def remove_tiles_from_bag(self, num_of_factories: int) -> list[Tile]:
         """
@@ -81,6 +96,7 @@ class Bag:
             tile for tile in self.__tile_bag
         ]  # A list is created of all the colours of the tile that exists in the bag.
 
+        print(f"Tiles List: {tiles_list}")
         for _ in range(0, num_of_factories * 4):  # For each Factory times 4...
             tiles_to_remove.append(
                 tiles_list[randrange(1, len(tiles_list))]
@@ -99,3 +115,6 @@ class Bag:
         )  # And the whole list is returned, in chunks of 4.
 
     # TODO: Include logic for when len(bag) < 0
+    def add_tiles_to_bag(self, tiles: list[Tile]) -> None:
+        mapped_tiles: Mapping[Tile, int] = self._list_to_mapping(tiles)
+        self._update(mapped_tiles)
