@@ -105,9 +105,11 @@ def place_tiles_onto_wall() -> None:
     """
 
     for player_index in players:
-        for line_index in range(5):
-            if not game.is_pattern_line_empty(line_index=line_index, player_index=player_index):
-                game.place_onto_wall(line_index=line_index, player_index=player_index)
+        # for line_index in range(5):
+        #     if not game.is_pattern_line_empty(line_index=line_index, player_index=player_index):
+        #         game.place_onto_wall(line_index=line_index, player_index=player_index)
+
+        game.place_onto_wall(player_index=player_index)
 
         print(f"\nPlayer {player_index+1}:\n")
         wall: list[list[list[str | Tile | None]]] = game.return_wall(player_index=player_index)

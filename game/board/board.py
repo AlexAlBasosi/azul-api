@@ -95,7 +95,7 @@ class Board:
 
         return self.__floor_line.place_tiles_onto_floor_line(tiles=tiles)
 
-    def place_tile_onto_wall(self, line_index: int) -> list[Tile]:
+    def _place_tile_onto_wall(self, line_index: int) -> list[Tile]:
         """
         Method that takes the line index of the item to be placed on the wall.
 
@@ -113,3 +113,24 @@ class Board:
         )
 
         return self.__pattern_lines.clear_pattern_line(line_index)
+    
+    def place_tiles_onto_wall(self) -> list[list[Tile]]:
+        """
+        Method that, for each full pattern line, places the tile onto the wall, stores the score, and then adds the negative score from the floor line.
+
+        It then returns the tiles to be added to the lid.
+        """
+        cleared_pattern_lines: list[list[Tile]] = []
+        for line_index in range(5):
+            if self.__pattern_lines.is_line_full(line_index):
+                cleared_pattern_lines.append(self._place_tile_onto_wall(line_index))
+        
+        floor_score: int = self.__floor_line.calculate_score()
+        total_score: int = self.__score + floor_score
+
+        if total_score >= 0:
+            self.__score += floor_score
+        else:
+            self.__score = 0
+
+        return cleared_pattern_lines

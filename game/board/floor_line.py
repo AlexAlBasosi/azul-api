@@ -58,3 +58,18 @@ class FloorLine:
                 self.__floor_line.extend(tiles[:space_remaining])
                 return tiles[space_remaining:]
         return None
+
+    def calculate_score(self) -> int:
+        """
+        Method that calculates the negative score incurred by tiles being in the floor line.
+
+        It then returns that score.
+        """
+        score: int = 0
+        if(len(self.__floor_line) == 0):
+            return 0
+        else:
+            for index in range(len(self.__floor_line)):
+                score += self.__scores[index]
+        
+        return score

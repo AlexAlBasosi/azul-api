@@ -348,7 +348,7 @@ class Game:
         except IndexError as index_message:
             raise IndexError(index_message) from index_message
 
-    def place_onto_wall(self, *, line_index: int, player_index: int) -> None:
+    def place_onto_wall(self, *, player_index: int) -> None:
         """
         Method that takes the line index and player index, and places the tile onto the wall.
 
@@ -363,10 +363,14 @@ class Game:
                 "Cannot place onto the wall while the factories still have tiles!"
             )
 
-        returned_tiles: list[Tile] = self.__boards[
+        returned_tiles: list[list[Tile]] = self.__boards[
             player_index
-        ].place_tile_onto_wall(line_index)
+        ].place_tiles_onto_wall()
 
-        if len(returned_tiles) > 0:
-            for tile in returned_tiles:
-                self.__lid.append(tile)
+        for cleared_line in returned_tiles:
+            if len(cleared_line) > 0:
+                self.__lid += cleared_line
+
+        # if len(returned_tiles) > 0:
+        #     for tile in returned_tiles:
+        #         self.__lid.append(tile)
