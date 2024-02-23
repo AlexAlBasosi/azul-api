@@ -29,7 +29,7 @@ class Board:
         ]
 
         return pattern_lines
-    
+
     def is_pattern_line_full(self, line_index: int) -> bool:
         """
         Method that takes line index.
@@ -108,7 +108,8 @@ class Board:
 
         tile_type: str = self.__pattern_lines.get_tile_type(line_index)
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
-        self.__score += self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
+        self.__score += self.__wall.place_tile_onto_wall(
+            line_index, column_index, tile_type
+        )
 
         return self.__pattern_lines.clear_pattern_line(line_index)
-

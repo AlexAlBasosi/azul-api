@@ -42,21 +42,21 @@ class Game:
             if tile in board.return_floor_line():
                 return True
         return False
-    
+
     def return_num_of_factories(self) -> int:
         """
         Method that returns the number of factories.
         """
 
         return self.__num_of_factories
-    
+
     def return_num_of_players(self) -> int:
         """
         Method that returns the number of players.
         """
 
         return self.__num_of_players
-    
+
     def is_factories_empty(self) -> bool:
         """
         Method that returns whether the factories are empty.
@@ -74,9 +74,13 @@ class Game:
         """
 
         return not len(self.__center_of_table) > 0
-    
-    def is_pattern_line_empty(self, *, line_index: int, player_index: int) -> bool:
-        return not self.__boards[player_index].is_pattern_line_full(line_index=line_index)
+
+    def is_pattern_line_empty(
+        self, *, line_index: int, player_index: int
+    ) -> bool:
+        return not self.__boards[player_index].is_pattern_line_full(
+            line_index=line_index
+        )
 
     def initialise_players(self, *, num_of_players: int) -> list[int]:
         """
@@ -177,7 +181,7 @@ class Game:
         The list is then returned.
         """
         return self.__boards[player_index].return_wall()
-    
+
     def return_score(self, *, player_index: int) -> int:
         """
         Method that takes the player index.
@@ -359,7 +363,9 @@ class Game:
                 "Cannot place onto the wall while the factories still have tiles!"
             )
 
-        returned_tiles: list[Tile] = self.__boards[player_index].place_tile_onto_wall(line_index)
+        returned_tiles: list[Tile] = self.__boards[
+            player_index
+        ].place_tile_onto_wall(line_index)
 
         if len(returned_tiles) > 0:
             for tile in returned_tiles:

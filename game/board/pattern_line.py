@@ -91,12 +91,14 @@ class PatternLine:
                     f"Selected Pattern Line only has {space_remaining} space(s) remaining! Please try again but with less Tiles."
                 )
             if tile_length > space_remaining:
-                self.__pattern_lines[line_index].extendleft(tiles[:space_remaining])
+                self.__pattern_lines[line_index].extendleft(
+                    tiles[:space_remaining]
+                )
             else:
                 self.__pattern_lines[line_index].extendleft(tiles)
 
         return list(self.__pattern_lines[line_index].copy())
-    
+
     def clear_pattern_line(self, line_index: int) -> list[Tile]:
         """
         Method that takes the line index, and clears the pattern line.
@@ -105,7 +107,7 @@ class PatternLine:
         """
         if not self.is_line_full(line_index):
             raise ValueError("Cannot clear pattern line if line is not full.")
-        
+
         # Removes last element that was added to the wall.
         self.__pattern_lines[line_index].pop()
 

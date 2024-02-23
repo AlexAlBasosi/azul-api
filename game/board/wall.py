@@ -79,16 +79,18 @@ class Wall:
 
         return index
 
-    def _count_adjacent_row_items(self, row_index: int, column_index: int) -> int:
+    def _count_adjacent_row_items(
+        self, row_index: int, column_index: int
+    ) -> int:
         consecutive_count: int = 0
-        
+
         # Count consecutive items to the left of the selected item, EXCLUDING item
         for index in range(column_index - 1, -1, -1):
             if self.__wall[row_index][index][1] is not None:
                 consecutive_count += 1
             else:
                 break
-        
+
         # Count consecutive items to the right of the selected item
         for index in range(column_index + 1, len(self.__wall[row_index])):
             if self.__wall[row_index][index][1] is not None:
@@ -97,8 +99,10 @@ class Wall:
                 break
 
         return consecutive_count
-        
-    def _count_adjacent_column_items(self, row_index: int, column_index: int) -> int:
+
+    def _count_adjacent_column_items(
+        self, row_index: int, column_index: int
+    ) -> int:
         consecutive_count: int = 0
 
         # Count consecutive items above the selected item, EXCLUDING item
@@ -107,14 +111,14 @@ class Wall:
                 consecutive_count += 1
             else:
                 break
-        
+
         # Count consecutive items below the selected item
         for index in range(row_index + 1, len(self.__wall)):
             if self.__wall[index][column_index][1] is not None:
                 consecutive_count += 1
             else:
                 break
-        
+
         return consecutive_count
 
     def place_tile_onto_wall(
@@ -133,5 +137,5 @@ class Wall:
 
         # consecutive items in the row (excluding item) + consecutive items in the column (excluding item) + item itself
         score = row_score + column_score + 1
-        
+
         return score
