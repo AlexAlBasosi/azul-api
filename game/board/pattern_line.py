@@ -96,3 +96,23 @@ class PatternLine:
                 self.__pattern_lines[line_index].extendleft(tiles)
 
         return list(self.__pattern_lines[line_index].copy())
+    
+    def clear_pattern_line(self, line_index: int) -> list[Tile]:
+        """
+        Method that takes the line index, and clears the pattern line.
+
+        It returns a list of tiles to be added to the lid.
+        """
+        if not self.is_line_full(line_index):
+            raise ValueError("Cannot clear pattern line if line is not full.")
+        
+        # Removes last element that was added to the wall.
+        self.__pattern_lines[line_index].pop()
+
+        returned_tiles: list[Tile] = []
+        if len(self.__pattern_lines[line_index]) > 0:
+            # Pops remaining elements in pattern line to be returned.
+            for _ in range(len(self.__pattern_lines[line_index])):
+                returned_tiles.append(self.__pattern_lines[line_index].pop())
+
+        return returned_tiles

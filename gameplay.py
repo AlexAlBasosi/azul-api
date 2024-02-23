@@ -114,6 +114,9 @@ def place_tiles_onto_wall() -> None:
         for wall_row in wall:
             print(f"{wall_row}\n")
         print(f"Score: {game.return_score(player_index=player_index)}\n")
+
+        print(f"Pattern Lines: {game.return_pattern_lines(player_index=player_index)}")
+        print(f"Lid: {game.return_lid()}\n")
     print("\n\n")
 
 try:
@@ -152,7 +155,6 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
-# TODO: Wall scoring
 # TODO: if factories are empty, refill from bag
 # TODO: if bag is empty, refill from lid
 # TODO: if 5 consecutive horizontal tiles, end game.
@@ -162,4 +164,4 @@ except OverflowError as overflow_message:
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
 # TODO: Refactor error message to include class and method where error was raised.
-    
+    # TODO: add RuleError for things that violate game rules

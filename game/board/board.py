@@ -31,6 +31,11 @@ class Board:
         return pattern_lines
     
     def is_pattern_line_full(self, line_index: int) -> bool:
+        """
+        Method that takes line index.
+
+        It returns True if pattern line is full. Otherwise, it returns False.
+        """
         return self.__pattern_lines.is_line_full(line_index)
 
     def return_floor_line(self) -> list[str | Tile]:
@@ -90,11 +95,11 @@ class Board:
 
         return self.__floor_line.place_tiles_onto_floor_line(tiles=tiles)
 
-    def place_tile_onto_wall(self, line_index: int) -> None:
+    def place_tile_onto_wall(self, line_index: int) -> list[Tile]:
         """
         Method that takes the line index of the item to be placed on the wall.
 
-        It then stores the score.
+        It then stores the score, clears the pattern line, and returns a list of tiles to be added to the lid.
         """
         if not self.__pattern_lines.is_line_full(line_index):
             raise ValueError(
@@ -105,5 +110,5 @@ class Board:
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
         self.__score += self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
 
-        # TODO: clear pattern line if full
-        
+        return self.__pattern_lines.clear_pattern_line(line_index)
+

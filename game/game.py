@@ -147,11 +147,11 @@ class Game:
 
         return center_of_table
 
-    def return_lid(self) -> list[str]:
+    def return_lid(self) -> list[Tile]:
         """
         Method that returns a list of the Tiles in the lid.
         """
-        lid = [tile.getattr() for tile in self.__lid]
+        lid = [tile for tile in self.__lid]
 
         return lid
 
@@ -347,6 +347,8 @@ class Game:
     def place_onto_wall(self, *, line_index: int, player_index: int) -> None:
         """
         Method that takes the line index and player index, and places the tile onto the wall.
+
+        It then stores the list of tiles from the cleared pattern lines into the lid.
         """
         if len(self.__center_of_table) > 0:
             raise ValueError(
@@ -357,4 +359,8 @@ class Game:
                 "Cannot place onto the wall while the factories still have tiles!"
             )
 
-        self.__boards[player_index].place_tile_onto_wall(line_index)
+        returned_tiles: list[Tile] = self.__boards[player_index].place_tile_onto_wall(line_index)
+
+        if len(returned_tiles) > 0:
+            for tile in returned_tiles:
+                self.__lid.append(tile)
