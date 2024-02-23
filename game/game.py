@@ -78,6 +78,11 @@ class Game:
     def is_pattern_line_empty(
         self, *, line_index: int, player_index: int
     ) -> bool:
+        """
+        Method that checks if selected pattern line on a particular board is empty.
+
+        Returns True if empty. Returns False otherwise.
+        """
         return not self.__boards[player_index].is_pattern_line_full(
             line_index=line_index
         )
@@ -114,17 +119,15 @@ class Game:
             else 9
         )
 
-        try:
-            tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
-                self.__num_of_factories
-            )
+        self.__factory.clear_factories()
 
-            factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
-                tiles_from_bag
-            )
+        tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
+            self.__num_of_factories
+        )
 
-        except ValueError as value_message:
-            raise ValueError(value_message) from value_message
+        factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
+            tiles_from_bag
+        )
 
         return factories
 
@@ -181,6 +184,14 @@ class Game:
         The list is then returned.
         """
         return self.__boards[player_index].return_wall()
+    
+    def is_tile_on_wall(self, *, line_index: int, tile_type: str, player_index: int) -> bool:
+        """
+        Method that takes the line index, tile type, and player index, and checks if there is a tile on the corresponding row on the wall with the same colour.
+
+        Returns True if so. Returns False otherwise.
+        """
+        return self.__boards[player_index].is_tile_on_wall(line_index, tile_type)
 
     def return_score(self, *, player_index: int) -> int:
         """
@@ -212,20 +223,11 @@ class Game:
 
         returned_tiles: list[list[Tile]] = []
 
-        try:
-            # A method is called on the factory object to remove all tiles of type from specified factory.
-            # Which returns lists of selected and discarded tiles.
-            returned_tiles = self.__factory.remove_all_instances_of_tile(
-                tile_type=tile_type, factory_index=factory_index
-            )
-
-        # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
-        except ValueError as value_message:
-            raise ValueError(value_message) from value_message
-        except IndexError as index_message:
-            raise IndexError(index_message) from index_message
-        except TypeError as type_message:
-            raise TypeError(type_message) from type_message
+        # A method is called on the factory object to remove all tiles of type from specified factory.
+        # Which returns lists of selected and discarded tiles.
+        returned_tiles = self.__factory.remove_all_instances_of_tile(
+            tile_type=tile_type, factory_index=factory_index
+        )
 
         return returned_tiles
 
@@ -263,9 +265,6 @@ class Game:
 
         return selected_tiles
 
-    def clear_center(self) -> None:
-        self.__center_of_table = []
-
     def place_onto_pattern_line(
         self,
         *,
@@ -292,33 +291,24 @@ class Game:
         if len(returned_tiles) <= 0:
             raise IndexError("Tile list provided is empty!")
 
-        try:
-            selected_tiles: list[Tile] = returned_tiles[0]
-            discarded_tiles: list[Tile] = returned_tiles[1]
+        selected_tiles: list[Tile] = returned_tiles[0]
+        discarded_tiles: list[Tile] = returned_tiles[1]
 
-            # If tile already exists at the line index on the wall, an error is raised.
-            if self.__boards[player_index].is_tile_on_wall(
-                line_index, tile_type
-            ):
-                raise ValueError(
-                    "Tile already exists on the wall! Cannot add to this pattern line."
-                )
-
-            # The selected tiles are placed onto the specified pattern line.
-            self.__boards[player_index].place_tile_onto_pattern_line(
-                selected_tiles, tile_type, line_index
+        # If tile already exists at the line index on the wall, an error is raised.
+        if self.__boards[player_index].is_tile_on_wall(
+            line_index, tile_type
+        ):
+            raise ValueError(
+                "Tile already exists on the wall! Cannot add to this pattern line."
             )
 
-            # The discarded tiles are added to the center of the table.
-            self._add_tiles_to_center(discarded_tiles)
+        # The selected tiles are placed onto the specified pattern line.
+        self.__boards[player_index].place_tile_onto_pattern_line(
+            selected_tiles, tile_type, line_index
+        )
 
-        # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
-        except ValueError as value_message:
-            raise ValueError(value_message) from value_message
-        except IndexError as index_message:
-            raise IndexError(index_message) from index_message
-        except OverflowError as overflow_message:
-            raise OverflowError(overflow_message) from overflow_message
+        # The discarded tiles are added to the center of the table.
+        self._add_tiles_to_center(discarded_tiles)
 
     def place_onto_floor_line(
         self, *, tiles: list[Tile], player_index: int
@@ -335,18 +325,13 @@ class Game:
                 )
         if len(tiles) <= 0:
             raise IndexError("List provided is empty!")
-        try:
-            returned_tiles: list[Tile] | None = self.__boards[
-                player_index
-            ].place_tiles_onto_floor_line(tiles=tiles)
-            if returned_tiles is not None:
-                for tile in returned_tiles:
-                    self.__lid.append(tile)
-
-        except ValueError as value_message:
-            raise ValueError(value_message) from value_message
-        except IndexError as index_message:
-            raise IndexError(index_message) from index_message
+        
+        returned_tiles: list[Tile] | None = self.__boards[
+            player_index
+        ].place_tiles_onto_floor_line(tiles=tiles)
+        if returned_tiles is not None:
+            for tile in returned_tiles:
+                self.__lid.append(tile)
 
     def place_onto_wall(self, *, player_index: int) -> None:
         """
@@ -370,7 +355,3 @@ class Game:
         for cleared_line in returned_tiles:
             if len(cleared_line) > 0:
                 self.__lid += cleared_line
-
-        # if len(returned_tiles) > 0:
-        #     for tile in returned_tiles:
-        #         self.__lid.append(tile)

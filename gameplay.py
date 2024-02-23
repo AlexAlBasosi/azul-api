@@ -6,6 +6,7 @@ This file contains the implementation that sets the game's parameters and plays 
 
 from game import Game
 from game import Tile
+from random import randrange
 
 game: Game = Game()
 
@@ -23,12 +24,13 @@ tile_type: str, player_index: int) -> int | None:
     for index in range(5):
         pattern_line_capacity = index + 1
         pattern_line_availability = pattern_line_capacity - len(pattern_lines[index])
-        if len(pattern_lines[index]) == 0:
-            if(tiles_length <= pattern_line_availability):
-                return index
-        elif pattern_lines[index][-1] == tile_type:
-            if tiles_length <= pattern_line_availability:
-                pattern_line_index = index
+        if not game.is_tile_on_wall(line_index=index, tile_type=tile_type, player_index=player_index):
+            if len(pattern_lines[index]) == 0:
+                if(tiles_length <= pattern_line_availability):
+                    return index
+            elif pattern_lines[index][-1] == tile_type:
+                if tiles_length <= pattern_line_availability:
+                    pattern_line_index = index
     return pattern_line_index
         
 
@@ -37,7 +39,7 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     Method that takes in the player_index and factory_index and selects tiles from the specified factory and places them onto the pattern line.
     """
     ## Now, the user starts to play. They start by selecting all the red tiles from the first factory.
-    tile = str(factories[factory_index][0])
+    tile = str(factories[factory_index][randrange(0, 3)])
     tiles = game.select_from_factory(tile_type=tile, factory_index=factory_index)
 
     # The returned tiles, which include the selected and discarded tiles, are passed into this method.
@@ -103,12 +105,7 @@ def place_tiles_onto_wall() -> None:
     """
     Method that loops through each player, and for each player places the tiles from each pattern line onto the wall.
     """
-
     for player_index in players:
-        # for line_index in range(5):
-        #     if not game.is_pattern_line_empty(line_index=line_index, player_index=player_index):
-        #         game.place_onto_wall(line_index=line_index, player_index=player_index)
-
         game.place_onto_wall(player_index=player_index)
 
         print(f"\nPlayer {player_index+1}:\n")
@@ -133,21 +130,45 @@ try:
     print(f"Center: {game.return_center()}")
     print(f"Lid: {game.return_lid()}\n")
 
-    # Factory Offer:
+
+    # Round 1
+    ## Factory Offer:
+
+    print("Round 1: \n\n")
 
     print("Taking from factories:\n\n")
     play_factory_turns()
-
 
     print("Now taking from center:\n\n")
     play_center_turns()
     
     print("\n\n")
 
-    # Wall Tiling
-    ## Now, the user starts to place tiles onto the wall from the pattern lines.
+    ## Wall Tiling
+    # Now, the user starts to place tiles onto the wall from the pattern lines.
     place_tiles_onto_wall()
 
+    # Round 2
+    ## Factory Offer:
+
+    print("Round 2: \n\n")
+
+
+    factories = game.initalise_factories()
+    print(f"Factories: {game.return_factories()}")
+
+    print("Taking from factories:\n\n")
+    play_factory_turns()
+
+    print("Now taking from center:\n\n")
+    play_center_turns()
+    
+    print("\n\n")
+
+    ## Wall Tiling
+    place_tiles_onto_wall()
+
+# The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
 except IndexError as index_message:
@@ -157,10 +178,11 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
-# TODO: if factories are empty, refill from bag
 # TODO: if bag is empty, refill from lid
 # TODO: if 5 consecutive horizontal tiles, end game.
 # TODO: add final scores
+# TODO: refactor select from* methods to be play_turn*
+# TODO: look into adding a logger
     
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
