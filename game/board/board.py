@@ -12,11 +12,13 @@ class Board:
     __pattern_lines: PatternLine
     __floor_line: FloorLine
     __wall: Wall
+    __score: int
 
     def __init__(self) -> None:
         self.__pattern_lines = PatternLine()
         self.__floor_line = FloorLine()
         self.__wall = Wall()
+        self.__score = 0
 
     def return_pattern_lines(self) -> list[list[Tile]]:
         """
@@ -46,6 +48,12 @@ class Board:
         The list is then returned.
         """
         return self.__wall.return_wall()
+
+    def return_score(self) -> int:
+        """
+        Method that returns the score.
+        """
+        return self.__score
 
     def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
         """
@@ -80,6 +88,11 @@ class Board:
         return self.__floor_line.place_tiles_onto_floor_line(tiles=tiles)
 
     def place_tile_onto_wall(self, line_index: int) -> None:
+        """
+        Method that takes the line index of the item to be placed on the wall.
+
+        It then stores the score.
+        """
         if not self.__pattern_lines.is_line_full(line_index):
             raise ValueError(
                 "Cannot place tile onto wall if pattern line is not empty!"
@@ -90,6 +103,6 @@ class Board:
 
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
         print(f"Index: {column_index}")
-        self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
 
-        # TODO: add logic to increase score as returned from wall and return to game
+        self.__score += self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
+        

@@ -174,6 +174,14 @@ class Game:
         The list is then returned.
         """
         return self.__boards[player_index].return_wall()
+    
+    def return_score(self, *, player_index: int) -> int:
+        """
+        Method that takes the player index.
+
+        It then returns the score.
+        """
+        return self.__boards[player_index].return_score()
 
     def select_from_factory(
         self, *, tile_type: str, factory_index: int
@@ -334,6 +342,9 @@ class Game:
             raise IndexError(index_message) from index_message
 
     def place_onto_wall(self, *, line_index: int, player_index: int) -> None:
+        """
+        Method that takes the line index and player index, and places the tile onto the wall.
+        """
         if len(self.__center_of_table) > 0:
             raise ValueError(
                 "Cannot place onto the wall while the center still has tiles!"
@@ -344,5 +355,3 @@ class Game:
             )
 
         self.__boards[player_index].place_tile_onto_wall(line_index)
-
-        # TODO: add logic to return score

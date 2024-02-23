@@ -129,9 +129,10 @@ try:
 
     # Wall Tiling
     ## Now, the user starts to place tiles onto the wall from the pattern lines.
-    # print(f"Wall: {game.return_wall(player_index=0)}")
-    # game.place_onto_wall(line_index=0, player_index=0)
-    # print(f"Wall: {game.return_wall(player_index=0)}")
+    print(f"Wall: {game.return_wall(player_index=0)}\n")
+    game.place_onto_wall(line_index=0, player_index=0)
+    print(f"Wall: {game.return_wall(player_index=0)}\n")
+    print(f"Player 1 Score: {game.return_score(player_index=0)}")
 
 
 

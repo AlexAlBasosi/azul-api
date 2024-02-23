@@ -79,9 +79,64 @@ class Wall:
 
         return index
 
+    def _count_adjacent_row_items(self, row_index: int, column_index: int) -> int:
+        consecutive_count: int = 0
+        
+        # Count consecutive items to the left of the selected item, EXCLUDING item
+        for index in range(column_index - 1, -1, -1):
+            if self.__wall[row_index][index][1] is not None:
+                consecutive_count += 1
+            else:
+                break
+        
+        # Count consecutive items to the right of the selected item
+        for index in range(column_index + 1, len(self.__wall[row_index])):
+            if self.__wall[row_index][index][1] is not None:
+                consecutive_count += 1
+            else:
+                break
+
+        return consecutive_count
+        
+    def _count_adjacent_column_items(self, row_index: int, column_index: int) -> int:
+        consecutive_count: int = 0
+
+        # Count consecutive items above the selected item, EXCLUDING item
+        for index in range(row_index - 1, -1, -1):
+            if self.__wall[index][column_index][1] is not None:
+                consecutive_count += 1
+            else:
+                break
+        
+        # Count consecutive items below the selected item
+        for index in range(row_index + 1, len(self.__wall)):
+            if self.__wall[index][column_index][1] is not None:
+                consecutive_count += 1
+            else:
+                break
+        
+        return consecutive_count
+
     def place_tile_onto_wall(
         self, row: int, column: int, tile_type: str
-    ) -> None:
+    ) -> int:
+        """
+        Method that takes in the row index and the column index, and places the item onto the wall.
+
+        It then returns the score.
+        """
+        score: int = 0
         self.__wall[row][column][1] = Tile(tile_type)
 
-        # TODO: add logic to calculate the score and return to board
+        row_score: int = self._count_adjacent_row_items(row, column)
+        column_score: int = self._count_adjacent_column_items(row, column)
+
+        print(f"Row Score: {row_score}")
+        print(f"Column Score: {column_score}")
+
+        if row_score == 0 and column_score == 0:
+            score = 1
+        else:
+            score = row_score + column_score
+        
+        return score
