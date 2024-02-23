@@ -74,6 +74,9 @@ class Game:
         """
 
         return not len(self.__center_of_table) > 0
+    
+    def is_pattern_line_empty(self, *, line_index: int, player_index: int) -> bool:
+        return not self.__boards[player_index].is_pattern_line_full(line_index=line_index)
 
     def initialise_players(self, *, num_of_players: int) -> list[int]:
         """

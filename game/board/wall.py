@@ -131,12 +131,7 @@ class Wall:
         row_score: int = self._count_adjacent_row_items(row, column)
         column_score: int = self._count_adjacent_column_items(row, column)
 
-        print(f"Row Score: {row_score}")
-        print(f"Column Score: {column_score}")
-
-        if row_score == 0 and column_score == 0:
-            score = 1
-        else:
-            score = row_score + column_score
+        # consecutive items in the row (excluding item) + consecutive items in the column (excluding item) + item itself
+        score = row_score + column_score + 1
         
         return score

@@ -44,7 +44,6 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     # Here, the user places the tiles onto the second pattern line.
 
     available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
-    print(f"{available_index = }")
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
     else:
@@ -100,6 +99,22 @@ def play_center_turns() -> None:
         play_turn_center(player_index=player_index)
         player_index = (player_index + 1) % game.return_num_of_players()
 
+def place_tiles_onto_wall() -> None:
+    """
+    Method that loops through each player, and for each player places the tiles from each pattern line onto the wall.
+    """
+
+    for player_index in players:
+        for line_index in range(5):
+            if not game.is_pattern_line_empty(line_index=line_index, player_index=player_index):
+                game.place_onto_wall(line_index=line_index, player_index=player_index)
+
+        print(f"\nPlayer {player_index+1}:\n")
+        wall: list[list[list[str | Tile | None]]] = game.return_wall(player_index=player_index)
+        for wall_row in wall:
+            print(f"{wall_row}\n")
+        print(f"Score: {game.return_score(player_index=player_index)}\n")
+    print("\n\n")
 
 try:
     # Game Setup:
@@ -108,9 +123,6 @@ try:
     players: list[int] = game.initialise_players(num_of_players = 2)
     factories: list[list[Tile]] = game.initalise_factories()
     center: list[Tile | str] = game.return_center()
-
-    player_1: int = players[0]
-    player_2: int = players[1]
 
     print(f"Factories: {game.return_factories()}")
     print(f"Center: {game.return_center()}")
@@ -129,12 +141,7 @@ try:
 
     # Wall Tiling
     ## Now, the user starts to place tiles onto the wall from the pattern lines.
-    print(f"Wall: {game.return_wall(player_index=0)}\n")
-    game.place_onto_wall(line_index=0, player_index=0)
-    print(f"Wall: {game.return_wall(player_index=0)}\n")
-    print(f"Player 1 Score: {game.return_score(player_index=0)}")
-
-
+    place_tiles_onto_wall()
 
 except ValueError as value_message:
     print(f"Value Error: {value_message}")
@@ -148,8 +155,11 @@ except OverflowError as overflow_message:
 # TODO: Wall scoring
 # TODO: if factories are empty, refill from bag
 # TODO: if bag is empty, refill from lid
+# TODO: if 5 consecutive horizontal tiles, end game.
+# TODO: add final scores
     
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
 # TODO: Refactor error message to include class and method where error was raised.
+    

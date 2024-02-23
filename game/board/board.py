@@ -29,6 +29,9 @@ class Board:
         ]
 
         return pattern_lines
+    
+    def is_pattern_line_full(self, line_index: int) -> bool:
+        return self.__pattern_lines.is_line_full(line_index)
 
     def return_floor_line(self) -> list[str | Tile]:
         """
@@ -99,10 +102,8 @@ class Board:
             )
 
         tile_type: str = self.__pattern_lines.get_tile_type(line_index)
-        print(f"Tile type: {tile_type}")
-
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
-        print(f"Index: {column_index}")
-
         self.__score += self.__wall.place_tile_onto_wall(line_index, column_index, tile_type)
+
+        # TODO: clear pattern line if full
         
