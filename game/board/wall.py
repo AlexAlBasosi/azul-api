@@ -139,3 +139,19 @@ class Wall:
         score = row_score + column_score + 1
 
         return score
+    
+    def is_row_full(self) -> bool:
+        """
+        Method that iterates through each of the rows and check if any of the rows are full.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        for row_index in range(self.__rows):
+            count: int = 0
+            for column_index in range(self.__columns):
+                if self.__wall[row_index][column_index][1] is not None:
+                    count += 1
+            if count == 5:
+                return True
+        return False
+

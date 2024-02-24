@@ -96,10 +96,9 @@ class Bag:
             tile for tile in self.__tile_bag
         ]  # A list is created of all the colours of the tile that exists in the bag.
 
-        print(f"Tiles List: {tiles_list}")
         for _ in range(0, num_of_factories * 4):  # For each Factory times 4...
             tiles_to_remove.append(
-                tiles_list[randrange(1, len(tiles_list))]
+                tiles_list[randrange(0, len(tiles_list))]
             )  # ...a random number is generated, and the tile at
             # that index is appended to the list.
 

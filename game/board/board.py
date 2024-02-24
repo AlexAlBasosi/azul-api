@@ -134,3 +134,11 @@ class Board:
             self.__score = 0
 
         return cleared_pattern_lines
+    
+    def is_wall_row_full(self) -> bool:
+        """
+        Method that iterates through each of the rows and check if any of the rows are full.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        return self.__wall.is_row_full()

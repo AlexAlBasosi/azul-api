@@ -360,3 +360,14 @@ class Game:
         for cleared_line in returned_tiles:
             if len(cleared_line) > 0:
                 self.__lid += cleared_line
+
+    def is_game_ended(self) -> bool:
+        """
+        Method that checks whether the game has ended.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        for player in range(self.__num_of_players):
+            if self.__boards[player].is_wall_row_full():
+                return True
+        return False

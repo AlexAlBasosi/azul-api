@@ -26,11 +26,10 @@ tile_type: str, player_index: int) -> int | None:
         pattern_line_availability = pattern_line_capacity - len(pattern_lines[index])
         if not game.is_tile_on_wall(line_index=index, tile_type=tile_type, player_index=player_index):
             if len(pattern_lines[index]) == 0:
-                if(tiles_length <= pattern_line_availability):
-                    return index
-            elif pattern_lines[index][-1] == tile_type:
                 if tiles_length <= pattern_line_availability:
-                    pattern_line_index = index
+                    return index
+            if tiles_length <= pattern_line_availability and pattern_lines[index][-1] == tile_type:
+                pattern_line_index = index
     return pattern_line_index
         
 
@@ -48,8 +47,8 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
-    else:
-        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+    # else:
+    #     game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -71,8 +70,8 @@ def play_turn_center(player_index: int) -> None:
 
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
-    else:
-        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+    # else:
+    #     game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -123,207 +122,36 @@ try:
     ## This phase involves setting up the game and initialising the factories. 
 
     players: list[int] = game.initialise_players(num_of_players = 2)
-    factories: list[list[Tile]] = game.initalise_factories()
+    factories: list[list[Tile]] = []
     center: list[Tile | str] = game.return_center()
 
     print(f"Factories: {game.return_factories()}")
     print(f"Center: {game.return_center()}")
-    print(f"Lid: {game.return_lid()}\n")
+    print(f"Lid: {game.return_lid()}\n\n")
 
+    round_index: int = 0
+    while not game.is_game_ended():
+        factories = game.initalise_factories()
 
-    # Round 1
-    ## Factory Offer:
+        print(f"Round {round_index+1}: \n\n")
 
-    print("Round 1: \n\n")
+        ## Factory Offer:
+        print("Taking from factories:\n\n")
+        play_factory_turns()
 
-    print("Taking from factories:\n\n")
-    play_factory_turns()
+        print("Now taking from center:\n\n")
+        play_center_turns()
+        
+        ## Wall Tiling
+        # Now, the user starts to place tiles onto the wall from the pattern lines.
+        place_tiles_onto_wall()
 
-    print("Now taking from center:\n\n")
-    play_center_turns()
+        print("\n\n")
+        round_index += 1
+
+    print("Game ended!")
+        
     
-    print("\n\n")
-
-    ## Wall Tiling
-    # Now, the user starts to place tiles onto the wall from the pattern lines.
-    place_tiles_onto_wall()
-
-    # Round 2
-    ## Factory Offer:
-
-    print("Round 2: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-    
-    print("\n\n")
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-
-    # Round 3
-    ## Factory Offer:
-
-    print("Round 3: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-    
-    print("\n\n")
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-
-    # Round 4
-    ## Factory Offer:
-
-    print("Round 4: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-    
-    print("\n\n")
-
-    # Round 5
-    ## Factory Offer:
-
-    print("Round 5: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-    
-    print("\n\n")
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-
-    # Round 6
-    ## Factory Offer:
-
-    print("Round 6: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-    
-    print("\n\n")
-
-    # Round 7
-    ## Factory Offer:
-
-    print("Round 7: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-    
-    print("\n\n")
-
-    # Round 8
-    ## Factory Offer:
-
-    print("Round 8: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-    
-    print("\n\n")
-
-    # Round 9
-    ## Factory Offer:
-
-    print("Round 9: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-    
-    print("\n\n")
-
-    # Round 10
-    ## Factory Offer:
-
-    print("Round 10: \n\n")
-
-
-    factories = game.initalise_factories()
-    print(f"Factories: {game.return_factories()}")
-
-    print("Taking from factories:\n\n")
-    play_factory_turns()
-
-    print("Now taking from center:\n\n")
-    play_center_turns()
-
-    ## Wall Tiling
-    place_tiles_onto_wall()
-    
-    print("\n\n")
 
 # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
 except ValueError as value_message:
