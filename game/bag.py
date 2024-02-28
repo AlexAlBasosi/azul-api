@@ -19,7 +19,6 @@ class Bag:
         This populates the tile bag with 20 tiles of each type.
         """
 
-        # TODO: Refactor tile bag to create objects of type Tile
         for tile in self.__tile_set:
             self.__tile_bag[tile] = 20
 
@@ -77,6 +76,9 @@ class Bag:
         return sum(self.__tile_bag.values())
 
     def return_tile_bag(self) -> list[Tile]:
+        """
+        Method that returns the tiles in the bag as a list.
+        """
         tiles_list: list[Tile] = [tile for tile in self.__tile_bag]
         return tiles_list
 
@@ -98,7 +100,7 @@ class Bag:
 
         if not tiles_list:
             return []
-        
+
         for _ in range(0, num_of_factories * 4):  # For each Factory times 4...
             tiles_to_remove.append(
                 tiles_list[randrange(0, len(tiles_list))]
@@ -116,7 +118,9 @@ class Bag:
             tiles_to_remove
         )  # And the whole list is returned, in chunks of 4.
 
-        # TODO: return empty list when len(bag) < 0
     def add_tiles_to_bag(self, tiles: list[Tile]) -> None:
+        """
+        Method that takes a list of tiles to be added to the bag, and adds them to the bag.
+        """
         mapped_tiles: Mapping[Tile, int] = self._list_to_mapping(tiles)
         self._update(mapped_tiles)

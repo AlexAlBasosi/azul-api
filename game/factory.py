@@ -86,7 +86,7 @@ class Factory:
             if len(factory) > 0:
                 return False
         return True
-    
+
     def clear_factories(self) -> None:
         """
         Method that clears the contents of the factories.

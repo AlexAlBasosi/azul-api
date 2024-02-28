@@ -125,7 +125,7 @@ class Game:
         if len(bag_tiles) < (self.__num_of_factories * 4):
             self.__bag.add_tiles_to_bag(self.__lid)
             self.__lid.clear()
-    
+
         tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
             self.__num_of_factories
         )
@@ -200,14 +200,18 @@ class Game:
         The list is then returned.
         """
         return self.__boards[player_index].return_wall()
-    
-    def is_tile_on_wall(self, *, line_index: int, tile_type: str, player_index: int) -> bool:
+
+    def is_tile_on_wall(
+        self, *, line_index: int, tile_type: str, player_index: int
+    ) -> bool:
         """
         Method that takes the line index, tile type, and player index, and checks if there is a tile on the corresponding row on the wall with the same colour.
 
         Returns True if so. Returns False otherwise.
         """
-        return self.__boards[player_index].is_tile_on_wall(line_index, tile_type)
+        return self.__boards[player_index].is_tile_on_wall(
+            line_index, tile_type
+        )
 
     def return_score(self, *, player_index: int) -> int:
         """
@@ -311,9 +315,7 @@ class Game:
         discarded_tiles: list[Tile] = returned_tiles[1]
 
         # If tile already exists at the line index on the wall, an error is raised.
-        if self.__boards[player_index].is_tile_on_wall(
-            line_index, tile_type
-        ):
+        if self.__boards[player_index].is_tile_on_wall(line_index, tile_type):
             raise ValueError(
                 "Tile already exists on the wall! Cannot add to this pattern line."
             )
@@ -341,7 +343,7 @@ class Game:
                 )
         if len(tiles) <= 0:
             raise IndexError("List provided is empty!")
-        
+
         returned_tiles: list[Tile] | None = self.__boards[
             player_index
         ].place_tiles_onto_floor_line(tiles=tiles)
@@ -371,7 +373,7 @@ class Game:
         for cleared_line in returned_tiles:
             if len(cleared_line) > 0:
                 self.__lid += cleared_line
-    
+
     def _calculate_final_score(self, player_index: int) -> int:
         """
         Method that takes the player index and adds the final scores to the player's score.
@@ -393,7 +395,7 @@ class Game:
             for player_index in range(self.__num_of_players)
         ]
 
-        self.__final_scores += final_scores        
+        self.__final_scores += final_scores
         return final_scores
 
     def is_game_ended(self) -> bool:
@@ -415,8 +417,12 @@ class Game:
 
         if not player_scores:
             return {}
-        
+
         max_score = max(player_scores)
-        max_indexes = [index for index, score in enumerate(player_scores) if score == max_score]
+        max_indexes = [
+            index
+            for index, score in enumerate(player_scores)
+            if score == max_score
+        ]
 
         return {index: max_score for index in max_indexes}
