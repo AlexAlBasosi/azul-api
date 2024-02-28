@@ -19,6 +19,7 @@ class Game:
     __lid: list[Tile]
     __start_marker: Tile
     __boards: list[Board]
+    __final_scores: list[int]
 
     def __init__(self) -> None:
         """
@@ -32,6 +33,7 @@ class Game:
         self.__center_of_table: list[Tile] = [self.__start_marker]
         self.__lid: list[Tile] = []
         self.__boards: list[Board] = []
+        self.__final_scores: list[int] = []
 
     def _add_tiles_to_center(self, tiles: list[Tile]) -> None:
         for tile in tiles:
@@ -119,16 +121,25 @@ class Game:
             else 9
         )
 
-        self.__factory.clear_factories()
-
         bag_tiles: list[Tile] = self.__bag.return_tile_bag()
         if len(bag_tiles) < (self.__num_of_factories * 4):
             self.__bag.add_tiles_to_bag(self.__lid)
             self.__lid.clear()
-
+    
         tiles_from_bag: list[Tile] = self.__bag.remove_tiles_from_bag(
             self.__num_of_factories
         )
+
+        # If the lid is empty, take the current contents of the factories and add them to the bag.
+        current_factories: list[Tile] = []
+        for factory in self.return_factories():
+            for factory_tile in factory:
+                current_factories.append(factory_tile)
+
+        if not self.__lid:
+            self.__bag.add_tiles_to_bag(current_factories)
+
+        self.__factory.clear_factories()
 
         factories: list[list[Tile]] = self.__factory.add_tiles_to_factories(
             tiles_from_bag
@@ -189,18 +200,14 @@ class Game:
         The list is then returned.
         """
         return self.__boards[player_index].return_wall()
-
-    def is_tile_on_wall(
-        self, *, line_index: int, tile_type: str, player_index: int
-    ) -> bool:
+    
+    def is_tile_on_wall(self, *, line_index: int, tile_type: str, player_index: int) -> bool:
         """
         Method that takes the line index, tile type, and player index, and checks if there is a tile on the corresponding row on the wall with the same colour.
 
         Returns True if so. Returns False otherwise.
         """
-        return self.__boards[player_index].is_tile_on_wall(
-            line_index, tile_type
-        )
+        return self.__boards[player_index].is_tile_on_wall(line_index, tile_type)
 
     def return_score(self, *, player_index: int) -> int:
         """
@@ -304,7 +311,9 @@ class Game:
         discarded_tiles: list[Tile] = returned_tiles[1]
 
         # If tile already exists at the line index on the wall, an error is raised.
-        if self.__boards[player_index].is_tile_on_wall(line_index, tile_type):
+        if self.__boards[player_index].is_tile_on_wall(
+            line_index, tile_type
+        ):
             raise ValueError(
                 "Tile already exists on the wall! Cannot add to this pattern line."
             )
@@ -332,7 +341,7 @@ class Game:
                 )
         if len(tiles) <= 0:
             raise IndexError("List provided is empty!")
-
+        
         returned_tiles: list[Tile] | None = self.__boards[
             player_index
         ].place_tiles_onto_floor_line(tiles=tiles)
@@ -362,6 +371,30 @@ class Game:
         for cleared_line in returned_tiles:
             if len(cleared_line) > 0:
                 self.__lid += cleared_line
+    
+    def _calculate_final_score(self, player_index: int) -> int:
+        """
+        Method that takes the player index and adds the final scores to the player's score.
+
+        It then returns that score.
+        """
+        self.__boards[player_index].add_final_scores()
+
+        return self.__boards[player_index].return_score()
+
+    def calculate_final_scores(self) -> list[int]:
+        """
+        Method that iterates through the number of players, and then adds them to the final scores.
+
+        It then returns the final scores.
+        """
+        final_scores: list[int] = [
+            self._calculate_final_score(player_index=player_index)
+            for player_index in range(self.__num_of_players)
+        ]
+
+        self.__final_scores += final_scores        
+        return final_scores
 
     def is_game_ended(self) -> bool:
         """
@@ -374,12 +407,16 @@ class Game:
                 return True
         return False
 
-    def calculate_final_score(self, *, player_index: int) -> int:
+    def return_winners(self) -> dict[int, int]:
         """
-        Method that takes the player index and adds the final scores to the player's score.
-
-        It then returns that score.
+        Method that iterates through the final scores, and returns a dictionary of the winner indexes and their corresponding score.
         """
-        self.__boards[player_index].add_final_scores()
+        player_scores: list[int] = self.__final_scores
 
-        return self.__boards[player_index].return_score()
+        if not player_scores:
+            return {}
+        
+        max_score = max(player_scores)
+        max_indexes = [index for index, score in enumerate(player_scores) if score == max_score]
+
+        return {index: max_score for index in max_indexes}

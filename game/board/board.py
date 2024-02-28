@@ -149,9 +149,6 @@ class Board:
         """
         Method that checks if there are any full rows, columns, or diagonal rows of tiles, multiplies those counts by their respective score weight, adds them up, then adds it to the player's final score.
         """
-        print(f"full row count: {self.__wall.count_full_rows()}")
-        print(f"full column count: {self.__wall.count_full_columns()}")
-        print(f"full tile count: {self.__wall.count_full_tiles()}")
 
         full_row_count: int = self.__wall.count_full_rows() * 2
         full_column_count: int = self.__wall.count_full_columns() * 7

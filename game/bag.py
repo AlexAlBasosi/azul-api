@@ -96,6 +96,9 @@ class Bag:
             tile for tile in self.__tile_bag
         ]  # A list is created of all the colours of the tile that exists in the bag.
 
+        if not tiles_list:
+            return []
+        
         for _ in range(0, num_of_factories * 4):  # For each Factory times 4...
             tiles_to_remove.append(
                 tiles_list[randrange(0, len(tiles_list))]
@@ -113,7 +116,7 @@ class Bag:
             tiles_to_remove
         )  # And the whole list is returned, in chunks of 4.
 
-    # TODO: Include logic for when len(bag) < 0
+        # TODO: return empty list when len(bag) < 0
     def add_tiles_to_bag(self, tiles: list[Tile]) -> None:
         mapped_tiles: Mapping[Tile, int] = self._list_to_mapping(tiles)
         self._update(mapped_tiles)

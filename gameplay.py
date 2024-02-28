@@ -132,6 +132,8 @@ try:
     round_index: int = 0
     while not game.is_game_ended():
         factories = game.initalise_factories()
+        if not factories:
+            break
 
         print(f"Round {round_index+1}: \n\n")
 
@@ -149,11 +151,21 @@ try:
         print("\n\n")
         round_index += 1
 
-    print("Game ended!")
+    print("Game ended!\n")
 
-    for player_index in players:
-        player_final_score = game.calculate_final_score(player_index=player_index)
-        print(f"Player {player_index+1} Final Score: {player_final_score}")    
+    player_scores: list[int] = game.calculate_final_scores()
+    for player_index, player_score in enumerate(player_scores):
+        print(f"Player {player_index + 1} Score: {player_score}")
+
+    winners: dict[int, int] = game.return_winners()
+    winner_indexes: list[int] = list(winners.keys())
+    if len(winners) == 1:
+        winner_index = winner_indexes[0]
+        print(f"\nPlayer {winner_index + 1} wins!\n")
+    else:
+        print("\nIts a tie! The winners are:\n")
+        for winner_index in winner_indexes:
+            print(f"Player {winner_index + 1} Score: {winners[winner_index]}")
 
 # The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
 except ValueError as value_message:
@@ -165,8 +177,6 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     print(f"Overflow Error: {overflow_message}")
 
-# TODO: fix sporadic randrange error
-# TODO: find biggest score and declare winner
 # TODO: test final score methods
 # TODO: refactor select from* methods to be play_turn*
 # TODO: look into adding a logger
