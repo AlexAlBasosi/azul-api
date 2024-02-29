@@ -54,11 +54,23 @@ class Factory:
         # Validation ensures that the user is selecting a tile that exists in the factory, as well as whether the values passed in for
         # tile_type and factory_index are a string and integer, respectively.
         if tile_type not in self.__factories[factory_index]:
-            raise IndexError("No Tile of this type found within the factory!")
+            raise IndexError({
+                "class": "Game",
+                "method": "remove_all_instances_of_tile",
+                "message": "No Tile of this type found within the factory!"
+            })
         if not isinstance(tile_type, str):
-            raise TypeError("tile_type should be a string!")
+            raise TypeError({
+                "class": "Factory",
+                "method": "remove_all_instances_of_tile",
+                "message": "tile_type should be a string!"
+            })
         if not isinstance(factory_index, int):
-            raise TypeError("factory_index should be an integer!")
+            raise TypeError({
+                "class": "Factory",
+                "method": "remove_all_instances_of_tile",
+                "message": "factory_index should be an integer!"
+            })
 
         selected_tiles: list[Tile] = []
         discarded_tiles: list[Tile] = []

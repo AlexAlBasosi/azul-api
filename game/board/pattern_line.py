@@ -74,9 +74,11 @@ class PatternLine:
         if not self._is_type_in_line(
             tile_type, self.__pattern_lines[line_index]
         ):
-            raise TypeError(
-                "Pattern Line contains a Tile type of a different colour. You can only place Tiles of the same colour onto the line."
-            )
+            raise RuleError({
+                "class": "PatternLine",
+                "method": "place_tile_onto_pattern_line",
+                "message": "Pattern Line contains a Tile type of a different colour. You can only place Tiles of the same colour onto the line."
+            })
         max_length: int | None = self.__pattern_lines[line_index].maxlen
         line_length: int | None = len(self.__pattern_lines[line_index])
         tile_length: int | None = len(tiles)
@@ -88,9 +90,11 @@ class PatternLine:
         if tile_length is not None and space_remaining is not None:
             # If there isn't enough space for the tiles in the pattern line, it will throw an error.
             if space_remaining == 0:
-                raise OverflowError(
-                    f"Selected Pattern Line only has {space_remaining} space(s) remaining! Please try again but with less Tiles."
-                )
+                raise OverflowError({
+                    "class": "PatternLine",
+                    "method": "place_tile_onto_pattern_line",
+                    "message": f"Selected Pattern Line only has {space_remaining} space(s) remaining! Please try again but with less Tiles."
+                })
             if tile_length > space_remaining:
                 self.__pattern_lines[line_index].extendleft(
                     tiles[:space_remaining]

@@ -120,6 +120,9 @@ def place_tiles_onto_wall() -> None:
     print("\n\n")
 
 def format_exception_message(exception: Exception, exception_type: str) -> str:
+    """
+    Method that takes in the exception message and the type of exception, and returns a formatted string to be logged as an error.
+    """
     exception_message_formatted: str = f"{exception_type}Error\n Class: {exception.args[0]["class"]}\n Method: {exception.args[0]["method"]}\n Message: {exception.args[0]["message"]}"
 
     return exception_message_formatted
@@ -177,20 +180,22 @@ try:
 # The errors raised are handled here, which are printed onto the console.
 # In a production environment these would be added to a logger.
 except RuleError as rule_message:
-    exception_message: str = format_exception_message(rule_message, "Rule")
-    logging.error(exception_message)
+    rule_exception_message: str = format_exception_message(rule_message, "Rule")
+    logging.error(rule_exception_message)
 except ValueError as value_message:
-    logging.error("Value Error: %s", {value_message})
+    value_exception_message: str = format_exception_message(value_message, "Value")
+    logging.error(value_exception_message)
 except IndexError as index_message:
-    logging.error("Index Error: %s", {index_message})
+    index_exception_message: str = format_exception_message(index_message, "Index")
+    logging.error(index_exception_message)
 except TypeError as type_message:
-    logging.error("Type Error: %s", {type_message})
+    type_exception_message: str = format_exception_message(type_message, "Type")
+    logging.error(type_exception_message)
 except OverflowError as overflow_message:
-    logging.error("Overflow Error: %s", {overflow_message})
+    overflow_exception_message: str = format_exception_message(overflow_message, "Overflow")
+    logging.error(overflow_exception_message)
 
-# TODO: Refactor error message to include class and method where error was raised.
-    # TODO: add RuleError for things that violate game rules
-    
+# TODO: Complete all remaining todos    
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions

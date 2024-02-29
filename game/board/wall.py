@@ -170,7 +170,7 @@ class Wall:
                     consecutive_count += 1
             if consecutive_count == 5:
                 full_row_count += 1
-        
+                
         return full_row_count
 
     def count_full_columns(self) -> int:

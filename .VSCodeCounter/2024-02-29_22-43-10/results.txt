@@ -1,0 +1,44 @@
+Date : 2024-02-29 22:43:10
+Directory : /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api
+Total : 14 files,  1195 codes, 52 comments, 298 blanks, all 1545 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Python     |         12 |      1,194 |         52 |        296 |      1,542 |
+| Markdown   |          1 |          1 |          0 |          1 |          2 |
+| Properties |          1 |          0 |          0 |          1 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                   | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                      |         14 |      1,195 |         52 |        298 |      1,545 |
+| . (Files)                                                                              |          2 |        148 |         15 |         41 |        204 |
+| game                                                                                   |         12 |      1,047 |         37 |        257 |      1,341 |
+| game (Files)                                                                           |          6 |        588 |         20 |        137 |        745 |
+| game/board                                                                             |          6 |        459 |         17 |        120 |        596 |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                               | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/README.md                  | Markdown   |          1 |          0 |          1 |          2 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/__init__.py           | Python     |          7 |          0 |          3 |         10 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/bag.py                | Python     |        107 |          1 |         22 |        130 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/__init__.py     | Python     |          5 |          0 |          3 |          8 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/board.py        | Python     |        127 |          0 |         36 |        163 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/floor_line.py   | Python     |         58 |          5 |         15 |         78 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/pattern_line.py | Python     |        101 |          6 |         23 |        130 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/pip.conf        | Properties |          0 |          0 |          1 |          1 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/board/wall.py         | Python     |        168 |          6 |         42 |        216 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/factory.py            | Python     |         82 |          5 |         20 |        107 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/game.py               | Python     |        371 |         14 |         84 |        469 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/rule_error.py         | Python     |          2 |          0 |          0 |          2 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/game/tile.py               | Python     |         19 |          0 |          8 |         27 |
+| /Users/alexanderalbasosi/Documents/Oxford/2023/OOP/azul-api/gameplay.py                | Python     |        147 |         15 |         40 |        202 |
+| Total                                                                                  |            |      1,195 |         52 |        298 |      1,545 |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
