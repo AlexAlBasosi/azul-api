@@ -1,3 +1,7 @@
+"""
+Module containing the PatternLine class implementation.
+"""
+
 from collections import deque
 from collections.abc import Iterator
 from ..tile import Tile

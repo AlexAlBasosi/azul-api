@@ -1,3 +1,7 @@
+"""
+Module containing the Game class implementation.
+"""
+
 from .board import Board
 from .bag import Bag
 from .tile import Tile
@@ -188,8 +192,7 @@ class Game:
         """
         return self.__boards[player_index].return_pattern_lines()
 
-    # TODO: Fix error message
-    def return_floor_line(self, *, player_index: int) -> list[str]:
+    def return_floor_line(self, *, player_index: int) -> list[str | Tile]:
         """
         Method that returns a list of the floor line tiles.
         """

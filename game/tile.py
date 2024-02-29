@@ -1,5 +1,8 @@
-from typing import Any
+"""
+Module containing the Tile class implementation.
+"""
 
+from typing import Any
 
 class Tile:
     """

@@ -1,3 +1,7 @@
+"""
+Module containing the Board class implementation.
+"""
+
 from .pattern_line import PatternLine
 from .floor_line import FloorLine
 from .wall import Wall
@@ -7,7 +11,7 @@ from ..rule_error import RuleError
 
 class Board:
     """
-    The Board class follows the Facade pattern, handling instantiation and methods associated with its sub-components.
+    The Board class follows the Facade pattern, handling instantiation and methods associated with pattern lines, the floor line, the wall, and the score.
     """
 
     __pattern_lines: PatternLine

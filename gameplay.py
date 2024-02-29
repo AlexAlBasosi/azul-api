@@ -13,7 +13,7 @@ from game import RuleError
 game: Game = Game()
 
 def get_available_pattern_line_index(returned_tiles: list[list[Tile]],
-tile_type: str, player_index: int) -> int | None:
+tile_type: str, selected_player_index: int) -> int | None:
     """
     Method that takes in the tiles returned from the select_from_factory method and checks if there are available spaces in the pattern line.
 
@@ -21,12 +21,12 @@ tile_type: str, player_index: int) -> int | None:
     """
     print(f"Returned Tiles: {returned_tiles[0]}")
     tiles_length: int = len(returned_tiles[0])
-    pattern_lines: list[list[Tile]] = game.return_pattern_lines(player_index=player_index)
+    pattern_lines: list[list[Tile]] = game.return_pattern_lines(player_index=selected_player_index)
     pattern_line_index: int | None = None
     for index in range(5):
         pattern_line_capacity = index + 1
         pattern_line_availability = pattern_line_capacity - len(pattern_lines[index])
-        if not game.is_tile_on_wall(line_index=index, tile_type=tile_type, player_index=player_index):
+        if not game.is_tile_on_wall(line_index=index, tile_type=tile_type, player_index=selected_player_index):
             if len(pattern_lines[index]) == 0:
                 if tiles_length <= pattern_line_availability:
                     return index
@@ -35,7 +35,7 @@ tile_type: str, player_index: int) -> int | None:
     return pattern_line_index
         
 
-def play_turn_factory(player_index: int, factory_index: int) -> None:
+def play_turn_factory(selected_player_index: int, factory_index: int) -> None:
     """
     Method that takes in the player_index and factory_index and selects tiles from the specified factory and places them onto the pattern line.
     """
@@ -46,76 +46,76 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     # The returned tiles, which include the selected and discarded tiles, are passed into this method.
     # Here, the user places the tiles onto the second pattern line.
 
-    available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
+    available_index: int | None = get_available_pattern_line_index(tiles, tile, selected_player_index)
     if available_index is not None:
-        game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
+        game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=selected_player_index, line_index=available_index)
     else:
-        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+        game.place_onto_floor_line(tiles=tiles[0], player_index=selected_player_index)
 
-    print(f"\nPlayer {player_index+1}:\n")
+    print(f"\nPlayer {selected_player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
-    print(f"Pattern Lines: {game.return_pattern_lines(player_index=player_index)}")
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=selected_player_index)}")
     print(f"Center: {game.return_center()}")
-    print(f"Floor Line: {game.return_floor_line(player_index=player_index)}")
+    print(f"Floor Line: {game.return_floor_line(player_index=selected_player_index)}")
 
     print("\n\n")
 
-def play_turn_center(player_index: int) -> None:
+def play_turn_center(selected_player_index: int) -> None:
     """
     Method that takes in the player_index and line_index and selects tiles from the center and places them onto the pattern line.
     """
     
     tile = str(game.return_center()[0]) if game.return_center()[0] != "start" else str(game.return_center()[1])
-    tiles: list[list[Tile]] = [game.select_from_center(tile_type=tile, player_index=player_index), []]
+    tiles: list[list[Tile]] = [game.select_from_center(tile_type=tile, player_index=selected_player_index), []]
 
-    available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
+    available_index: int | None = get_available_pattern_line_index(tiles, tile, selected_player_index)
 
     if available_index is not None:
-        game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
+        game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=selected_player_index, line_index=available_index)
     else:
-        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+        game.place_onto_floor_line(tiles=tiles[0], player_index=selected_player_index)
 
-    print(f"\nPlayer {player_index+1}:\n")
+    print(f"\nPlayer {selected_player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
-    print(f"Pattern Lines: {game.return_pattern_lines(player_index=player_index)}")
+    print(f"Pattern Lines: {game.return_pattern_lines(player_index=selected_player_index)}")
     print(f"Center: {game.return_center()}")
-    print(f"Floor Line: {game.return_floor_line(player_index=player_index)}")
+    print(f"Floor Line: {game.return_floor_line(player_index=selected_player_index)}")
     print("\n\n")
 
 def play_factory_turns() -> None:
     """
     Method that loops through each factory and alternates between the number of players, each taking tiles from a factory.
     """
-    player_index: int = 0
+    selected_player: int = 0
 
     for factory_index in range(game.return_num_of_factories()):
-        play_turn_factory(player_index=player_index, factory_index=factory_index)
-        player_index = (player_index + 1) % game.return_num_of_players()
+        play_turn_factory(selected_player, factory_index)
+        selected_player = (selected_player + 1) % game.return_num_of_players()
 
 def play_center_turns() -> None:
     """
     Method that, while center is not empty, alternates between players, each taking from the center until the center is empty.
     """
-    player_index: int = 0
+    selected_player: int = 0
 
     while not game.is_center_empty():
-        play_turn_center(player_index=player_index)
-        player_index = (player_index + 1) % game.return_num_of_players()
+        play_turn_center(selected_player)
+        selected_player = (selected_player + 1) % game.return_num_of_players()
 
 def place_tiles_onto_wall() -> None:
     """
     Method that loops through each player, and for each player places the tiles from each pattern line onto the wall.
     """
-    for player_index in players:
-        game.place_onto_wall(player_index=player_index)
+    for player in players:
+        game.place_onto_wall(player_index=player)
 
-        print(f"\nPlayer {player_index+1}:\n")
-        wall: list[list[list[str | Tile | None]]] = game.return_wall(player_index=player_index)
+        print(f"\nPlayer {player+1}:\n")
+        wall: list[list[list[str | Tile | None]]] = game.return_wall(player_index=player)
         for wall_row in wall:
             print(f"{wall_row}\n")
-        print(f"Score: {game.return_score(player_index=player_index)}\n")
+        print(f"Score: {game.return_score(player_index=player)}\n")
 
-        print(f"Pattern Lines: {game.return_pattern_lines(player_index=player_index)}")
+        print(f"Pattern Lines: {game.return_pattern_lines(player_index=player)}")
         print(f"Lid: {game.return_lid()}\n")
     print("\n\n")
 
@@ -195,7 +195,7 @@ except OverflowError as overflow_message:
     overflow_exception_message: str = format_exception_message(overflow_message, "Overflow")
     logging.error(overflow_exception_message)
 
-# TODO: Complete all remaining todos    
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
+# TODO: Update README

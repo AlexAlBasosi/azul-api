@@ -1,3 +1,7 @@
+"""
+Module containing the Bag class implementation.
+"""
+
 from random import randrange
 from typing import Any
 from collections.abc import Iterator, Mapping

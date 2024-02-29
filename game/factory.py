@@ -1,6 +1,10 @@
-from .tile import Tile
+"""
+Module containing the Factory class implementation.
+"""
+
 from typing import Generator
 from collections.abc import Iterator
+from .tile import Tile
 
 
 class Factory:

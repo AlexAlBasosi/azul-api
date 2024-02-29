@@ -1,3 +1,7 @@
+"""
+Module containing the Wall class implementation.
+"""
+
 import numpy as np
 from ..tile import Tile
 
@@ -53,7 +57,6 @@ class Wall:
             wall.append(wall_row)
         return wall
 
-    # TODO: refactor this method to call get_column_index
     def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
         """
         Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
@@ -170,7 +173,7 @@ class Wall:
                     consecutive_count += 1
             if consecutive_count == 5:
                 full_row_count += 1
-                
+
         return full_row_count
 
     def count_full_columns(self) -> int:
