@@ -153,7 +153,7 @@ class Wall:
                     count += 1
             if count == 5:
                 return True
-        return False
+        return False     
 
     def count_full_rows(self) -> int:
         """
@@ -170,6 +170,7 @@ class Wall:
                     consecutive_count += 1
             if consecutive_count == 5:
                 full_row_count += 1
+        
         return full_row_count
 
     def count_full_columns(self) -> int:
@@ -187,6 +188,7 @@ class Wall:
                     consecutive_count += 1
             if consecutive_count == 5:
                 full_column_count += 1
+
         return full_column_count
 
     def count_full_tiles(self) -> int:
@@ -209,4 +211,5 @@ class Wall:
                     consecutive_count += 1
             if consecutive_count == 5:
                 full_tile_count += 1
+
         return full_tile_count

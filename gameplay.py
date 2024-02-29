@@ -4,9 +4,10 @@ This file contains the implementation that sets the game's parameters and plays 
 
 # This script simulates setting up the game and simulating a user's actions as they play the game.
 
+from random import randrange
+import logging
 from game import Game
 from game import Tile
-from random import randrange
 
 game: Game = Game()
 
@@ -47,8 +48,8 @@ def play_turn_factory(player_index: int, factory_index: int) -> None:
     available_index: int | None = get_available_pattern_line_index(tiles, tile, player_index)
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
-    # else:
-    #     game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+    else:
+        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -70,8 +71,8 @@ def play_turn_center(player_index: int) -> None:
 
     if available_index is not None:
         game.place_onto_pattern_line(tile_type=tile, returned_tiles=tiles, player_index=player_index, line_index=available_index)
-    # else:
-    #     game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
+    else:
+        game.place_onto_floor_line(tiles=tiles[0], player_index=player_index)
 
     print(f"\nPlayer {player_index+1}:\n")
     print(f"Factories: {game.return_factories()}")
@@ -167,22 +168,20 @@ try:
         for winner_index in winner_indexes:
             print(f"Player {winner_index + 1} Score: {winners[winner_index]}")
 
-# The errors raised are handled here, which are printed onto the console. In a production environment these would be added to a logger.
+# The errors raised are handled here, which are printed onto the console.
+# In a production environment these would be added to a logger.
 except ValueError as value_message:
-    print(f"Value Error: {value_message}")
+    logging.error("Value Error: %s", {value_message})
 except IndexError as index_message:
-    print(f"Index Error: {index_message}")
+    logging.error("Index Error: %s", {index_message})
 except TypeError as type_message:
-    print(f"Type Error: {type_message}")
+    logging.error("Type Error: %s", {type_message})
 except OverflowError as overflow_message:
-    print(f"Overflow Error: {overflow_message}")
+    logging.error("Overflow Error: %s", {overflow_message})
 
-# TODO: test final score methods
-# TODO: refactor select from* methods to be play_turn*
-# TODO: look into adding a logger
+# TODO: Refactor error message to include class and method where error was raised.
+    # TODO: add RuleError for things that violate game rules
     
 # TODO: Add positional arguments to all public methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
-# TODO: Refactor error message to include class and method where error was raised.
-    # TODO: add RuleError for things that violate game rules
