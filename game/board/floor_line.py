@@ -46,11 +46,13 @@ class FloorLine:
 
         if tile_length is not None and space_remaining is not None:
             if tile_length <= 0:
-                raise IndexError({
-                    "class": "FloorLine",
-                    "method": "place_tiles_onto_floor_line",
-                    "message": "You must place at least one tile onto the floor line!"
-                })
+                raise IndexError(
+                    {
+                        "class": "FloorLine",
+                        "method": "place_tiles_onto_floor_line",
+                        "message": "You must place at least one tile onto the floor line!",
+                    }
+                )
 
             # If the space remaining is 0, it will return all the tiles to be added to the lid.
             if space_remaining == 0:

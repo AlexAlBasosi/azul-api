@@ -8,6 +8,7 @@ from .tile import Tile
 from .factory import Factory
 from .rule_error import RuleError
 
+
 class Game:
     """
     Facade class responsible for exposing access to all the various components of the game.
@@ -100,11 +101,13 @@ class Game:
         It then returns a list of the player indices.
         """
         if num_of_players not in (2, 3, 4):
-            raise RuleError({
-                "class": "Game",
-                "method": "initialise_players",
-                "message": "Azul is only designed for 2 - 4 players."
-            })
+            raise RuleError(
+                {
+                    "class": "Game",
+                    "method": "initialise_players",
+                    "message": "Azul is only designed for 2 - 4 players.",
+                }
+            )
 
         self.__num_of_players = num_of_players
 
@@ -239,18 +242,22 @@ class Game:
 
         # Validation to ensure that the type being passed in is of the specified types.
         if tile_type not in ("black", "ice", "blue", "yellow", "red"):
-            raise ValueError({
-                "class": "Game",
-                "method": "select_from_factory",
-                "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'."
-            })
+            raise ValueError(
+                {
+                    "class": "Game",
+                    "method": "select_from_factory",
+                    "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'.",
+                }
+            )
         # Validation to ensure that an index isn't passed in for a factory that doesn't exist.
         if factory_index not in range(0, self.__num_of_factories):
-            raise IndexError({
-                "class": "Game",
-                "method": "select_from_factory",
-                "message": "You can only select a factory index with an integer from 0-3, as it only contains up to four tiles."
-            })
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "select_from_factory",
+                    "message": "You can only select a factory index with an integer from 0-3, as it only contains up to four tiles.",
+                }
+            )
 
         returned_tiles: list[list[Tile]] = []
 
@@ -273,23 +280,29 @@ class Game:
 
         # If requested tile isn't in the center or the table, there are no tiles in the center, or tile is not a string, it will throw an error.
         if tile_type not in self.__center_of_table:
-            raise IndexError({
-                "class": "Game",
-                "method": "select_from_center",
-                "message": "No Tile of this type found within the center!"
-            })
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "select_from_center",
+                    "message": "No Tile of this type found within the center!",
+                }
+            )
         if len(self.__center_of_table) <= 0:
-            raise IndexError({
-                "class": "Game",
-                "method": "select_from_center",
-                "message": "There are no tiles in the center of the table!"
-            })
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "select_from_center",
+                    "message": "There are no tiles in the center of the table!",
+                }
+            )
         if not isinstance(tile_type, str):
-            raise TypeError({
-                "class": "Game",
-                "method": "select_from_center",
-                "message": "tile_type should be a string!"
-            })
+            raise TypeError(
+                {
+                    "class": "Game",
+                    "method": "select_from_center",
+                    "message": "tile_type should be a string!",
+                }
+            )
 
         # For each tile in the center of the table, it will append it to the selected tiles, and then remove it from the center of the table.
         selected_tiles: list[Tile] = []
@@ -323,35 +336,43 @@ class Game:
         """
         # Validation to ensure that the type being passed in is of the specified types.
         if tile_type not in ("black", "ice", "blue", "yellow", "red"):
-            raise ValueError({
-                "class": "Game",
-                "method": "place_onto_pattern_line",
-                "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'."
-            })
+            raise ValueError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_pattern_line",
+                    "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', or 'red'.",
+                }
+            )
         # Validation that ensures an index isn't passed in for a pattern line that doesn't exist.
         if line_index not in range(0, 5):
-            raise IndexError({
-                "class": "Game",
-                "method": "place_onto_pattern_line",
-                "message": "Selected Pattern Line doesn't exist. Please provide an index from 0-4."
-            })
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_pattern_line",
+                    "message": "Selected Pattern Line doesn't exist. Please provide an index from 0-4.",
+                }
+            )
         if len(returned_tiles) <= 0:
-            raise IndexError({
-                "class": "Game",
-                "method": "place_onto_pattern_line",
-                "message": "Tile list provided is empty!"
-            })
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_pattern_line",
+                    "message": "Tile list provided is empty!",
+                }
+            )
 
         selected_tiles: list[Tile] = returned_tiles[0]
         discarded_tiles: list[Tile] = returned_tiles[1]
 
         # If tile already exists at the line index on the wall, an error is raised.
         if self.__boards[player_index].is_tile_on_wall(line_index, tile_type):
-            raise RuleError({
-                "class": "Game",
-                "method": "place_onto_pattern_line",
-                "message": "Tile already exists on the wall! Cannot add to this pattern line."
-            })
+            raise RuleError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_pattern_line",
+                    "message": "Tile already exists on the wall! Cannot add to this pattern line.",
+                }
+            )
 
         # The selected tiles are placed onto the specified pattern line.
         self.__boards[player_index].place_tile_onto_pattern_line(
@@ -371,17 +392,21 @@ class Game:
         """
         for tile in tiles:
             if tile not in ("black", "ice", "blue", "yellow", "red", "start"):
-                raise ValueError({
+                raise ValueError(
+                    {
+                        "class": "Game",
+                        "method": "place_onto_floor_line",
+                        "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', 'red', or 'start'.",
+                    }
+                )
+        if len(tiles) <= 0:
+            raise IndexError(
+                {
                     "class": "Game",
                     "method": "place_onto_floor_line",
-                    "message": "Tile type must be a string that contains either 'black', 'ice', 'blue', 'yellow', 'red', or 'start'."
-                })
-        if len(tiles) <= 0:
-            raise IndexError({
-                "class": "Game",
-                "method": "place_onto_floor_line",
-                "message": "List provided is empty!"              
-            })
+                    "message": "List provided is empty!",
+                }
+            )
 
         returned_tiles: list[Tile] | None = self.__boards[
             player_index
@@ -397,17 +422,21 @@ class Game:
         It then stores the list of tiles from the cleared pattern lines into the lid.
         """
         if len(self.__center_of_table) > 0:
-            raise RuleError({
-                "class": "Game",
-                "method": "place_onto_wall",
-                "message": "Cannot place onto the wall while the center still has tiles!"
-            })
+            raise RuleError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_wall",
+                    "message": "Cannot place onto the wall while the center still has tiles!",
+                }
+            )
         if not self.__factory.is_factories_empty():
-            raise RuleError({
-                "class": "Game",
-                "method": "place_onto_wall",
-                "message": "Cannot place onto the wall while the factories still have tiles!"
-            })
+            raise RuleError(
+                {
+                    "class": "Game",
+                    "method": "place_onto_wall",
+                    "message": "Cannot place onto the wall while the factories still have tiles!",
+                }
+            )
 
         returned_tiles: list[list[Tile]] = self.__boards[
             player_index

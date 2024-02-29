@@ -156,7 +156,7 @@ class Wall:
                     count += 1
             if count == 5:
                 return True
-        return False     
+        return False
 
     def count_full_rows(self) -> int:
         """

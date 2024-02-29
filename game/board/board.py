@@ -107,11 +107,13 @@ class Board:
         It then stores the score, clears the pattern line, and returns a list of tiles to be added to the lid.
         """
         if not self.__pattern_lines.is_line_full(line_index):
-            raise RuleError({
-                "class": "Board",
-                "method": "place_tile_onto_wall",
-                "message": "Cannot place tile onto wall if pattern line is not empty!"
-            })
+            raise RuleError(
+                {
+                    "class": "Board",
+                    "method": "place_tile_onto_wall",
+                    "message": "Cannot place tile onto wall if pattern line is not empty!",
+                }
+            )
 
         tile_type: str = self.__pattern_lines.get_tile_type(line_index)
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
