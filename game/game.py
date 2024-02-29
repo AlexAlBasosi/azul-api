@@ -2,7 +2,7 @@ from .board import Board
 from .bag import Bag
 from .tile import Tile
 from .factory import Factory
-
+from .rule_error import RuleError
 
 class Game:
     """
@@ -96,7 +96,11 @@ class Game:
         It then returns a list of the player indices.
         """
         if num_of_players not in (2, 3, 4):
-            raise ValueError("Azul is only designed for 2 - 4 players.")
+            raise RuleError({
+                "class": "Game",
+                "method": "initialise_players",
+                "message": "Azul is only designed for 2 - 4 players."
+            })
 
         self.__num_of_players = num_of_players
 
@@ -316,9 +320,11 @@ class Game:
 
         # If tile already exists at the line index on the wall, an error is raised.
         if self.__boards[player_index].is_tile_on_wall(line_index, tile_type):
-            raise ValueError(
-                "Tile already exists on the wall! Cannot add to this pattern line."
-            )
+            raise RuleError({
+                "class": "Game",
+                "method": "place_onto_pattern_line",
+                "message": "Tile already exists on the wall! Cannot add to this pattern line."
+            })
 
         # The selected tiles are placed onto the specified pattern line.
         self.__boards[player_index].place_tile_onto_pattern_line(
@@ -358,13 +364,17 @@ class Game:
         It then stores the list of tiles from the cleared pattern lines into the lid.
         """
         if len(self.__center_of_table) > 0:
-            raise ValueError(
-                "Cannot place onto the wall while the center still has tiles!"
-            )
+            raise RuleError({
+                "class": "Game",
+                "method": "place_onto_wall",
+                "message": "Cannot place onto the wall while the center still has tiles!"
+            })
         if not self.__factory.is_factories_empty():
-            raise ValueError(
-                "Cannot place onto the wall while the factories still have tiles!"
-            )
+            raise RuleError({
+                "class": "Game",
+                "method": "place_onto_wall",
+                "message": "Cannot place onto the wall while the factories still have tiles!"
+            })
 
         returned_tiles: list[list[Tile]] = self.__boards[
             player_index

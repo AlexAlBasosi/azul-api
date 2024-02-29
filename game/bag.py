@@ -2,6 +2,7 @@ from random import randrange
 from typing import Any
 from collections.abc import Iterator, Mapping
 from .tile import Tile
+from .rule_error import RuleError
 
 
 class Bag:
@@ -89,9 +90,11 @@ class Bag:
         For example, if there are 5 factories, 20 random tiles are removed from the bag and returned.
         """
         if num_of_factories not in (5, 7, 9):
-            raise ValueError(
-                "You can only have 5, 7, or 9 factories! Please check the Azul rulebook for guidance."
-            )
+            raise RuleError({
+                "class": "Bag",
+                "method": "remove_tiles_from_bag",
+                "message": "You can only have 5, 7, or 9 factories! Please check the Azul rulebook for guidance."
+            })
 
         tiles_to_remove: list[Tile] = []
         tiles_list: list[Tile] = [

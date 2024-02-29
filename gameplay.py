@@ -8,6 +8,7 @@ from random import randrange
 import logging
 from game import Game
 from game import Tile
+from game import RuleError
 
 game: Game = Game()
 
@@ -118,6 +119,11 @@ def place_tiles_onto_wall() -> None:
         print(f"Lid: {game.return_lid()}\n")
     print("\n\n")
 
+def format_exception_message(exception: Exception, exception_type: str) -> str:
+    exception_message_formatted: str = f"{exception_type}Error\n Class: {exception.args[0]["class"]}\n Method: {exception.args[0]["method"]}\n Message: {exception.args[0]["message"]}"
+
+    return exception_message_formatted
+
 try:
     # Game Setup:
     ## This phase involves setting up the game and initialising the factories. 
@@ -170,6 +176,9 @@ try:
 
 # The errors raised are handled here, which are printed onto the console.
 # In a production environment these would be added to a logger.
+except RuleError as rule_message:
+    exception_message: str = format_exception_message(rule_message, "Rule")
+    logging.error(exception_message)
 except ValueError as value_message:
     logging.error("Value Error: %s", {value_message})
 except IndexError as index_message:

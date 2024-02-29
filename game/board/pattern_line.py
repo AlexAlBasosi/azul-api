@@ -1,6 +1,7 @@
 from collections import deque
 from collections.abc import Iterator
 from ..tile import Tile
+from ..rule_error import RuleError
 
 
 class PatternLine:
@@ -106,7 +107,11 @@ class PatternLine:
         It returns a list of tiles to be added to the lid.
         """
         if not self.is_line_full(line_index):
-            raise ValueError("Cannot clear pattern line if line is not full.")
+            raise RuleError({
+                "class": "PatternLine",
+                "method": "clear_pattern_line",
+                "message": "Cannot clear pattern line if line is not full."
+            })
 
         # Removes last element that was added to the wall.
         self.__pattern_lines[line_index].pop()
