@@ -37,12 +37,19 @@ class Bag:
                 yield item
 
     def _list_to_mapping(self, tiles: list[Tile]) -> Mapping[Tile, int]:
+        """
+        This method takes a list and converts it to a mapping of Tile -> int.
+        """
         tile_mapping: dict[Tile, int] = {}
+        # For each tile in tile list,
         for tile in tiles:
             tile_count: int = 0
+            # count each occurence of the tile,
             for _, current_tile in enumerate(tiles):
                 if current_tile == tile:
+                    # increment the count of that tile
                     tile_count += 1
+            # and then add the count to the tile_mapping with the tile as a key.
             tile_mapping[tile] = tile_count
 
         return tile_mapping
@@ -73,8 +80,11 @@ class Bag:
         Remove method that provides Tile to be removed, and calls the _update method to remove it.
         """
         remove_tile_counts: dict[Tile, int] = {}
+        # For each tile to remove,
         for tile in tiles_to_remove:
+            # Get the current count and subtract it by 1.
             remove_tile_counts[tile] = remove_tile_counts.get(tile, 0) - 1
+        # Then update it with the new count.
         self._update(remove_tile_counts)
 
     def __len__(self) -> int:
@@ -84,6 +94,7 @@ class Bag:
         """
         Method that returns the tiles in the bag as a list.
         """
+        # For each tile in the tile bag, it's added to a list and returned.
         tiles_list: list[Tile] = [tile for tile in self.__tile_bag]
         return tiles_list
 
@@ -93,6 +104,8 @@ class Bag:
 
         For example, if there are 5 factories, 20 random tiles are removed from the bag and returned.
         """
+        # Validation to ensure the number of factories is 5, 7, or 9. 
+        # Otherwise it throws a RuleError.
         if num_of_factories not in (5, 7, 9):
             raise RuleError(
                 {
@@ -131,5 +144,7 @@ class Bag:
         """
         Method that takes a list of tiles to be added to the bag, and adds them to the bag.
         """
+        # Convert the list of tiles to be added to a mapping,
         mapped_tiles: Mapping[Tile, int] = self._list_to_mapping(tiles)
+        # then update it with the mapped tiles.
         self._update(mapped_tiles)

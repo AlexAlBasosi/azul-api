@@ -31,6 +31,7 @@ class Board:
 
         It then stores the score, clears the pattern line, and returns a list of tiles to be added to the lid.
         """
+        # Validation to ensure that the line is full before placing tile onto the wall. If it isn't, it raises a Rule Error.
         if not self.__pattern_lines.is_line_full(line_index):
             raise RuleError(
                 {
@@ -40,18 +41,23 @@ class Board:
                 }
             )
 
+        # For the specified pattern line, it first gets the tile type in the pattern line.
         tile_type: str = self.__pattern_lines.get_tile_type(line_index)
+        # As well as the index of the column of the associated tile type on the wall.
         column_index: int = self.__wall.get_column_index(line_index, tile_type)
+        # It then places the tile onto the wall, which returns the score calculated when tile is added to the wall. This is stored as an attribute.
         self.__score += self.__wall.place_tile_onto_wall(
             line_index, column_index, tile_type
         )
 
+        # The pattern line is cleared and the returned items are returned.
         return self.__pattern_lines.clear_pattern_line(line_index)
 
     def return_pattern_lines(self) -> list[list[Tile]]:
         """
         Method that returns a list of the pattern lines and the tiles within them.
         """
+        # This iterates through the pattern lines and returns them as a list of lists.
         pattern_lines: list[list[Tile]] = [
             line_tiles for line_tiles in iter(self.__pattern_lines)
         ]
@@ -63,10 +69,13 @@ class Board:
         Method that returns a list of the floor line tiles.
         """
         floor_line: list[str | Tile] = []
+        # For each item in the floor line,
         for tile in iter(self.__floor_line):
+            # The tile type is formatted,
             tile_string: str = repr(tile).replace("'", "")
+            # Then added to the list.
             floor_line.append(tile_string)
-
+        # Which is returned as a list.
         return floor_line
 
     def return_wall(self) -> list[list[list[str | Tile | None]]]:
@@ -138,31 +147,43 @@ class Board:
         It then returns the tiles to be added to the lid.
         """
         cleared_pattern_lines: list[list[Tile]] = []
+        # For each pattern line,
         for line_index in range(5):
+            # As long as the line is full,
             if self.__pattern_lines.is_line_full(line_index):
+                # The rightmost tile is added onto the wall, and the rest of the line is appended to cleared pattern lines.
                 cleared_pattern_lines.append(
                     self._place_tile_onto_wall(line_index)
                 )
 
+        # The score of the items in the floor line is calculated.
         floor_score: int = self.__floor_line.calculate_score()
+        # Which is added to the final score. (Usually a negative number, so it's subtracted).
         total_score: int = self.__score + floor_score
 
+        # If the total score is >= 0, the score is incremented by the floor score.
         if total_score >= 0:
             self.__score += floor_score
+        # Otherwise, it remains 0.
         else:
             self.__score = 0
 
+        # The cleared pattern lines is returned.
         return cleared_pattern_lines
 
     def add_final_scores(self) -> None:
         """
         Method that checks if there are any full rows, columns, or diagonal rows of tiles, multiplies those counts by their respective score weight, adds them up, then adds it to the player's final score.
         """
-
+        # Each full row is counted, and for each full row it's multiplied by 2.
         full_row_count: int = self.__wall.count_full_rows() * 2
+        # Each full column is counted, and for each full column it's multiplied by 7.
         full_column_count: int = self.__wall.count_full_columns() * 7
+        # Each full diagonal row is counted (for instance, each instance where all tiles of the same colour is on the wall), and then multiplied by 10.
         full_tile_count: int = self.__wall.count_full_tiles() * 10
 
+        # These scores are added,
         final_scores: int = full_row_count + full_column_count + full_tile_count
 
+        # and then stored in the score attribute.
         self.__score += final_scores

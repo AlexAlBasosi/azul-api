@@ -50,11 +50,13 @@ class PatternLine:
 
         If so, it returns True. Otherwise, it returns False.
         """
+        # If the length of the tiles in the pattern lines is not the max length, then the line isn't full, and it returns False.
         if (
             len(self.__pattern_lines[line_index])
             != self.__pattern_lines[line_index].maxlen
         ):
             return False
+        # Otherwise, it returns True.
         return True
 
     def get_tile_type(self, line_index: int) -> str:
@@ -63,6 +65,7 @@ class PatternLine:
 
         It then returns the type.
         """
+        # This returns the type of tile of the last element in the selected pattern line.
         return repr(self.__pattern_lines[line_index][-1])
 
     def place_tile_onto_pattern_line(
@@ -103,13 +106,15 @@ class PatternLine:
                         "message": f"Selected Pattern Line only has {space_remaining} space(s) remaining! Please try again but with less Tiles.",
                     }
                 )
+            # If the space remaining isn't 0, but there are some spaces available, then fill those spaces.
             if tile_length > space_remaining:
                 self.__pattern_lines[line_index].extendleft(
                     tiles[:space_remaining]
                 )
+            # Otherwise, fill the pattern tiles with all the tiles.
             else:
                 self.__pattern_lines[line_index].extendleft(tiles)
-
+        # And return the tiles that were added to the pattern line as a list.
         return list(self.__pattern_lines[line_index].copy())
 
     def clear_pattern_line(self, line_index: int) -> list[Tile]:
@@ -118,6 +123,7 @@ class PatternLine:
 
         It returns a list of tiles to be added to the lid.
         """
+        # Validation to ensure that the line is full before being cleared.
         if not self.is_line_full(line_index):
             raise RuleError(
                 {

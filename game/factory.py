@@ -27,6 +27,7 @@ class Factory:
         """
         Generator function that takes a list of Tiles and splits it into chunks of length 'chunk_length'
         """
+        # For each index in tile list, slice the list into chunks of chunk_length.
         for index in range(0, len(tile_list), chunk_length):
             yield tile_list[index : index + chunk_length]
 
@@ -50,8 +51,11 @@ class Factory:
 
         Finally, it returns the result back to the game user.
         """
+        # Split tiles to add into chunks of 4,
         factories: list[list[Tile]] = list(self._chunks(tiles_to_add, 4))
+        # then for each factory,
         for tiles in factories:
+            # append its tiles to the factories attribute.
             self.__factories.append(tiles)
 
         return factories

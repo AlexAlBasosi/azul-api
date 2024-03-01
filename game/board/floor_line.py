@@ -74,10 +74,15 @@ class FloorLine:
         It then returns that score.
         """
         score: int = 0
+        # If length of floor line is 0, the score is 0.
         if len(self.__floor_line) == 0:
             return 0
+        # Otherwise, 
         else:
+            # For each item in the floor line,
             for index in range(len(self.__floor_line)):
+                # The associated value of the score attribute, which contains the penalties, is incremented to the score.
                 score += self.__scores[index]
 
+        # That score is then returned.
         return score
