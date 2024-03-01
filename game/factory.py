@@ -56,10 +56,8 @@ class Factory:
 
         return factories
 
-    # TODO: remove positional arguments
-    # TODO: remove validation
     def remove_all_instances_of_tile(
-        self, *, tile_type: str, factory_index: int
+        self, tile_type: str, factory_index: int
     ) -> list[list[Tile]]:
         """
         Method which takes in the type of Tile(s) to remove from the Factory (i.e. red, blue, etc.), as well the index of the Factory the user is
@@ -76,22 +74,6 @@ class Factory:
                     "class": "Game",
                     "method": "remove_all_instances_of_tile",
                     "message": "No Tile of this type found within the factory!",
-                }
-            )
-        if not isinstance(tile_type, str):
-            raise TypeError(
-                {
-                    "class": "Factory",
-                    "method": "remove_all_instances_of_tile",
-                    "message": "tile_type should be a string!",
-                }
-            )
-        if not isinstance(factory_index, int):
-            raise TypeError(
-                {
-                    "class": "Factory",
-                    "method": "remove_all_instances_of_tile",
-                    "message": "factory_index should be an integer!",
                 }
             )
 

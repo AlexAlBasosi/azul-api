@@ -316,7 +316,7 @@ class Game:
         # A method is called on the factory object to remove all tiles of type from specified factory.
         # Which returns lists of selected and discarded tiles.
         returned_tiles = self.__factory.remove_all_instances_of_tile(
-            tile_type=tile_type, factory_index=factory_index
+            tile_type, factory_index
         )
 
         return returned_tiles

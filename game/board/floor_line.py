@@ -26,7 +26,6 @@ class FloorLine:
         for tile in self.__floor_line:
             yield tile
 
-    # TODO: remove positional validation
     def place_tiles_onto_floor_line(
         self, *, tiles: list[Tile]
     ) -> list[Tile] | None:

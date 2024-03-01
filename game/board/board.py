@@ -119,7 +119,6 @@ class Board:
             tiles, tile_type, line_index
         )
 
-    # TODO: remove positional argument
     def place_tiles_onto_floor_line(
         self, *, tiles: list[Tile]
     ) -> list[Tile] | None:
