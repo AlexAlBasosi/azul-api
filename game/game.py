@@ -109,8 +109,14 @@ class Game:
         """
         Method that returns a list of the pattern lines and the tiles within them.
         """
-
-        # TODO: add validation
+        if player_index not in range(self.__num_of_players):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "return_pattern_lines",
+                    "message": f"Please enter a 'player_index' between 0 and {self.__num_of_players - 1}",
+                }
+            )
 
         return self.__boards[player_index].return_pattern_lines()
 
@@ -128,8 +134,14 @@ class Game:
 
         The list is then returned.
         """
-
-        # TODO: add validation
+        if player_index not in range(self.__num_of_players):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "return_wall",
+                    "message": f"Please enter a 'player_index' between 0 and {self.__num_of_players - 1}",
+                }
+            )
 
         return self.__boards[player_index].return_wall()
     
@@ -139,8 +151,14 @@ class Game:
 
         It then returns the score.
         """
-
-        # TODO: add validation
+        if player_index not in range(self.__num_of_players):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "return_score",
+                    "message": f"Please enter a 'player_index' between 0 and {self.__num_of_players - 1}",
+                }
+            )
 
         return self.__boards[player_index].return_score()
     
@@ -188,8 +206,23 @@ class Game:
 
         Returns True if empty. Returns False otherwise.
         """
-
-        # TODO: add validation
+        if line_index not in range(5):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "is_pattern_line_empty",
+                    "message": "Please enter a 'line_index' between 0 and 5.",
+                }
+            )
+        
+        if player_index not in range(self.__num_of_players):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "is_pattern_line_empty",
+                    "message": f"Please enter a 'player_index' between 0 and {self.__num_of_players - 1}",
+                }
+            )
         return not self.__boards[player_index].is_pattern_line_full(
             line_index=line_index
         )
@@ -202,7 +235,32 @@ class Game:
 
         Returns True if so. Returns False otherwise.
         """
-        # TODO: add validation
+        if line_index not in range(5):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "is_tile_on_wall",
+                    "message": "Please enter a 'line_index' between 0 and 5.",
+                }
+            )
+        if not isinstance(tile_type, str):
+            raise TypeError(
+                {
+                    "class": "Game",
+                    "method": "is_tile_on_wall",
+                    "message": "tile_type should be a string!",
+                }
+            )
+        
+        if player_index not in range(self.__num_of_players):
+            raise IndexError(
+                {
+                    "class": "Game",
+                    "method": "is_tile_on_wall",
+                    "message": f"Please enter a 'player_index' between 0 and {self.__num_of_players - 1}",
+                }
+            )
+        
         return self.__boards[player_index].is_tile_on_wall(
             line_index, tile_type
         )

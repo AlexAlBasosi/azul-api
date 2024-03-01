@@ -195,6 +195,5 @@ except OverflowError as overflow_message:
     overflow_exception_message: str = format_exception_message(overflow_message, "Overflow")
     logging.error(overflow_exception_message)
 
-# TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
 # TODO: Update README
