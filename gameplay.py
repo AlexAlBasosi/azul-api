@@ -196,6 +196,7 @@ except OverflowError as overflow_message:
     logging.error(overflow_exception_message)
 
 # TODO: Add positional arguments to all public methods
+    # TODO: remove positional arguments from non-callable methods
 # TODO: Add validation to all public methods.
 # TODO: Add comments in various functions
 # TODO: Update README

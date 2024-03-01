@@ -49,6 +49,16 @@ class Game:
             if tile in board.return_floor_line():
                 return True
         return False
+    
+    def _calculate_final_score(self, player_index: int) -> int:
+        """
+        Method that takes the player index and adds the final scores to the player's score.
+
+        It then returns that score.
+        """
+        self.__boards[player_index].add_final_scores()
+
+        return self.__boards[player_index].return_score()
 
     def return_num_of_factories(self) -> int:
         """
@@ -63,6 +73,94 @@ class Game:
         """
 
         return self.__num_of_players
+    
+    def return_factories(self) -> list[list[Tile]]:
+        """
+        Method that returns a list of the Factories and the Tiles contained in each Factory.
+        """
+        factories: list[list[Tile]] = [
+            factory_tiles for factory_tiles in iter(self.__factory)
+        ]
+
+        return factories
+
+    def return_center(self) -> list[Tile | str]:
+        """
+        Method that returns a list of the Tiles in the center of the table.
+        """
+        center_of_table: list[Tile | str] = []
+        for tile in self.__center_of_table:
+            if tile == "start":
+                center_of_table.append("start")
+            else:
+                center_of_table.append(tile)
+
+        return center_of_table
+
+    def return_lid(self) -> list[Tile]:
+        """
+        Method that returns a list of the Tiles in the lid.
+        """
+        lid = [tile for tile in self.__lid]
+
+        return lid
+
+    def return_pattern_lines(self, *, player_index: int) -> list[list[Tile]]:
+        """
+        Method that returns a list of the pattern lines and the tiles within them.
+        """
+
+        # TODO: add validation
+
+        return self.__boards[player_index].return_pattern_lines()
+
+    def return_floor_line(self, *, player_index: int) -> list[str | Tile]:
+        """
+        Method that returns a list of the floor line tiles.
+        """
+        return self.__boards[player_index].return_floor_line()
+
+    def return_wall(
+        self, *, player_index: int
+    ) -> list[list[list[str | Tile | None]]]:
+        """
+        Method that iterates through the array and appends each row to a list.
+
+        The list is then returned.
+        """
+
+        # TODO: add validation
+
+        return self.__boards[player_index].return_wall()
+    
+    def return_score(self, *, player_index: int) -> int:
+        """
+        Method that takes the player index.
+
+        It then returns the score.
+        """
+
+        # TODO: add validation
+
+        return self.__boards[player_index].return_score()
+    
+    def return_winners(self) -> dict[int, int]:
+        """
+        Method that iterates through the final scores, and returns a dictionary of the winner indexes and their corresponding score.
+        """
+        player_scores: list[int] = self.__final_scores
+
+        if not player_scores:
+            return {}
+
+        max_score = max(player_scores)
+        max_indexes = [
+            index
+            for index, score in enumerate(player_scores)
+            if score == max_score
+        ]
+
+        return {index: max_score for index in max_indexes}
 
     def is_factories_empty(self) -> bool:
         """
@@ -80,7 +178,7 @@ class Game:
         Returns True if empty. Returns False otherwise.
         """
 
-        return not len(self.__center_of_table) > 0
+        return len(self.__center_of_table) <= 0
 
     def is_pattern_line_empty(
         self, *, line_index: int, player_index: int
@@ -90,11 +188,38 @@ class Game:
 
         Returns True if empty. Returns False otherwise.
         """
+
+        # TODO: add validation
         return not self.__boards[player_index].is_pattern_line_full(
             line_index=line_index
         )
+    
+    def is_tile_on_wall(
+        self, *, line_index: int, tile_type: str, player_index: int
+    ) -> bool:
+        """
+        Method that takes the line index, tile type, and player index, and checks if there is a tile on the corresponding row on the wall with the same colour.
 
-    def initialise_players(self, *, num_of_players: int) -> list[int]:
+        Returns True if so. Returns False otherwise.
+        """
+        # TODO: add validation
+        return self.__boards[player_index].is_tile_on_wall(
+            line_index, tile_type
+        )
+    
+    def is_game_ended(self) -> bool:
+        """
+        Method that checks whether the game has ended.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        for player in range(self.__num_of_players):
+            if self.__boards[player].is_wall_row_full():
+                return True
+        return False
+
+
+    def initialise_players(self, *, num_of_players: int = 2) -> list[int]:
         """
         Method that takes in the number of players, and initialises the boards.
 
@@ -157,79 +282,6 @@ class Game:
         )
 
         return factories
-
-    def return_factories(self) -> list[list[Tile]]:
-        """
-        Method that returns a list of the Factories and the Tiles contained in each Factory.
-        """
-        factories: list[list[Tile]] = [
-            factory_tiles for factory_tiles in iter(self.__factory)
-        ]
-
-        return factories
-
-    def return_center(self) -> list[Tile | str]:
-        """
-        Method that returns a list of the Tiles in the center of the table.
-        """
-        center_of_table: list[Tile | str] = []
-        for tile in self.__center_of_table:
-            if tile == "start":
-                center_of_table.append("start")
-            else:
-                center_of_table.append(tile)
-
-        return center_of_table
-
-    def return_lid(self) -> list[Tile]:
-        """
-        Method that returns a list of the Tiles in the lid.
-        """
-        lid = [tile for tile in self.__lid]
-
-        return lid
-
-    def return_pattern_lines(self, *, player_index: int) -> list[list[Tile]]:
-        """
-        Method that returns a list of the pattern lines and the tiles within them.
-        """
-        return self.__boards[player_index].return_pattern_lines()
-
-    def return_floor_line(self, *, player_index: int) -> list[str | Tile]:
-        """
-        Method that returns a list of the floor line tiles.
-        """
-        return self.__boards[player_index].return_floor_line()
-
-    def return_wall(
-        self, *, player_index: int
-    ) -> list[list[list[str | Tile | None]]]:
-        """
-        Method that iterates through the array and appends each row to a list.
-
-        The list is then returned.
-        """
-        return self.__boards[player_index].return_wall()
-
-    def is_tile_on_wall(
-        self, *, line_index: int, tile_type: str, player_index: int
-    ) -> bool:
-        """
-        Method that takes the line index, tile type, and player index, and checks if there is a tile on the corresponding row on the wall with the same colour.
-
-        Returns True if so. Returns False otherwise.
-        """
-        return self.__boards[player_index].is_tile_on_wall(
-            line_index, tile_type
-        )
-
-    def return_score(self, *, player_index: int) -> int:
-        """
-        Method that takes the player index.
-
-        It then returns the score.
-        """
-        return self.__boards[player_index].return_score()
 
     def select_from_factory(
         self, *, tile_type: str, factory_index: int
@@ -446,16 +498,6 @@ class Game:
             if len(cleared_line) > 0:
                 self.__lid += cleared_line
 
-    def _calculate_final_score(self, player_index: int) -> int:
-        """
-        Method that takes the player index and adds the final scores to the player's score.
-
-        It then returns that score.
-        """
-        self.__boards[player_index].add_final_scores()
-
-        return self.__boards[player_index].return_score()
-
     def calculate_final_scores(self) -> list[int]:
         """
         Method that iterates through the number of players, and then adds them to the final scores.
@@ -469,32 +511,3 @@ class Game:
 
         self.__final_scores += final_scores
         return final_scores
-
-    def is_game_ended(self) -> bool:
-        """
-        Method that checks whether the game has ended.
-
-        If so, it returns True. Otherwise, it returns False.
-        """
-        for player in range(self.__num_of_players):
-            if self.__boards[player].is_wall_row_full():
-                return True
-        return False
-
-    def return_winners(self) -> dict[int, int]:
-        """
-        Method that iterates through the final scores, and returns a dictionary of the winner indexes and their corresponding score.
-        """
-        player_scores: list[int] = self.__final_scores
-
-        if not player_scores:
-            return {}
-
-        max_score = max(player_scores)
-        max_indexes = [
-            index
-            for index, score in enumerate(player_scores)
-            if score == max_score
-        ]
-
-        return {index: max_score for index in max_indexes}

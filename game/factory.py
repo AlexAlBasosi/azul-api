@@ -30,6 +30,17 @@ class Factory:
         for index in range(0, len(tile_list), chunk_length):
             yield tile_list[index : index + chunk_length]
 
+    def is_factories_empty(self) -> bool:
+        """
+        Method that checks whether the factories are empty.
+
+        If so, it returns True. Otherwise, if any of the factories are not empty, it will return False.
+        """
+        for factory in self.__factories:
+            if len(factory) > 0:
+                return False
+        return True
+
     def add_tiles_to_factories(
         self, tiles_to_add: list[Tile]
     ) -> list[list[Tile]]:
@@ -45,6 +56,8 @@ class Factory:
 
         return factories
 
+    # TODO: remove positional arguments
+    # TODO: remove validation
     def remove_all_instances_of_tile(
         self, *, tile_type: str, factory_index: int
     ) -> list[list[Tile]]:
@@ -97,17 +110,6 @@ class Factory:
         self.__factories[factory_index] = []
 
         return [selected_tiles, discarded_tiles]
-
-    def is_factories_empty(self) -> bool:
-        """
-        Method that checks whether the factories are empty.
-
-        If so, it returns True. Otherwise, if any of the factories are not empty, it will return False.
-        """
-        for factory in self.__factories:
-            if len(factory) > 0:
-                return False
-        return True
 
     def clear_factories(self) -> None:
         """

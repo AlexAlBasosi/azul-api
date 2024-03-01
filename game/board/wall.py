@@ -42,46 +42,6 @@ class Wall:
                 self.__wall[i][j] = wall_item
             tiles_list = self._shift_right(tiles_list)
 
-    def return_wall(self) -> list[list[list[str | Tile | None]]]:
-        """
-        Method that iterates through the array and appends each row to a list.
-
-        The list is then returned.
-        """
-        wall: list[list[list[str | Tile | None]]] = []
-        for i in range(self.__rows):
-            wall_row: list[list[str | Tile | None]] = []
-            for j in range(self.__columns):
-                wall_item: list[str | Tile | None] = list(self.__wall[i][j])
-                wall_row.append(wall_item)
-            wall.append(wall_row)
-        return wall
-
-    def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
-        """
-        Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
-
-        If it does, it returns True. Otherwise, it returns False.
-        """
-        for wall_row in self.__wall[line_index]:
-            if wall_row[0] == tile_type:
-                if wall_row[1] is not None:
-                    return True
-        return False
-
-    def get_column_index(self, line_index: int, tile_type: str) -> int:
-        """
-        Method that takes the pattern line index and the type of tile, and retrieves the index of the column.
-
-        It then returns that column index.
-        """
-        index: int = 0
-        for i, wall_row in enumerate(self.__wall[line_index]):
-            if repr(wall_row[0]) == tile_type:
-                index = i
-
-        return index
-
     def _count_adjacent_row_items(
         self, row_index: int, column_index: int
     ) -> int:
@@ -124,6 +84,61 @@ class Wall:
 
         return consecutive_count
 
+    def return_wall(self) -> list[list[list[str | Tile | None]]]:
+        """
+        Method that iterates through the array and appends each row to a list.
+
+        The list is then returned.
+        """
+        wall: list[list[list[str | Tile | None]]] = []
+        for i in range(self.__rows):
+            wall_row: list[list[str | Tile | None]] = []
+            for j in range(self.__columns):
+                wall_item: list[str | Tile | None] = list(self.__wall[i][j])
+                wall_row.append(wall_item)
+            wall.append(wall_row)
+        return wall
+
+    def is_tile_on_wall(self, line_index: int, tile_type: str) -> bool:
+        """
+        Method that takes in the pattern line index and the type of tile, and checks if a corresponding tile exists on the wall.
+
+        If it does, it returns True. Otherwise, it returns False.
+        """
+        for wall_row in self.__wall[line_index]:
+            if wall_row[0] == tile_type:
+                if wall_row[1] is not None:
+                    return True
+        return False
+    
+    def is_row_full(self) -> bool:
+        """
+        Method that iterates through each of the rows and checks if any of the rows are full.
+
+        If so, it returns True. Otherwise, it returns False.
+        """
+        for row_index in range(self.__rows):
+            count: int = 0
+            for column_index in range(self.__columns):
+                if self.__wall[row_index][column_index][1] is not None:
+                    count += 1
+            if count == 5:
+                return True
+        return False
+
+    def get_column_index(self, line_index: int, tile_type: str) -> int:
+        """
+        Method that takes the pattern line index and the type of tile, and retrieves the index of the column.
+
+        It then returns that column index.
+        """
+        index: int = 0
+        for i, wall_row in enumerate(self.__wall[line_index]):
+            if repr(wall_row[0]) == tile_type:
+                index = i
+
+        return index
+
     def place_tile_onto_wall(
         self, row: int, column: int, tile_type: str
     ) -> int:
@@ -142,21 +157,6 @@ class Wall:
         score = row_score + column_score + 1
 
         return score
-
-    def is_row_full(self) -> bool:
-        """
-        Method that iterates through each of the rows and checks if any of the rows are full.
-
-        If so, it returns True. Otherwise, it returns False.
-        """
-        for row_index in range(self.__rows):
-            count: int = 0
-            for column_index in range(self.__columns):
-                if self.__wall[row_index][column_index][1] is not None:
-                    count += 1
-            if count == 5:
-                return True
-        return False
 
     def count_full_rows(self) -> int:
         """
