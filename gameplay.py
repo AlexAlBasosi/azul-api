@@ -255,5 +255,3 @@ except TypeError as type_message:
 except OverflowError as overflow_message:
     overflow_exception_message: str = format_exception_message(overflow_message, "Overflow")
     logging.error(overflow_exception_message)
-
-# TODO: Update README
